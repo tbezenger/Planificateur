@@ -7,8 +7,9 @@ import java.util.ArrayList;
 /**
  * Created by tomy- on 18/10/2016.
  */
-public class CProposal {
-    private String entitled;
+
+public class COption {
+    private String title;
     private ArrayList<CUser> voters;
 
     public void addVoter(CUser pVoter){
@@ -23,16 +24,15 @@ public class CProposal {
         return voters;
     }
 
-    public String getEntitled() {
-        return entitled;
+    public String getTitle() {
+        return title;
     }
 
-    public void setEntitled(String entitled) {
-        this.entitled = entitled;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public CProposal(String entitled, ArrayList<CUser> voters) {
-        this.entitled = entitled;
-        this.voters = voters;
+    public COption(String title) {
+        this.title = title;
     }
 }

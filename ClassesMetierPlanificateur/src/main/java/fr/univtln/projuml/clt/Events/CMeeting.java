@@ -48,4 +48,10 @@ public class CMeeting extends AEvent {
         this.hour = hour;
         this.participants = participants;
     }
+
+    public CMeeting(String title, boolean isPrivate, int duration, Date date, Time hour) {
+        super(title, isPrivate, duration);
+        this.date = date;
+        this.hour = hour;
+    }
 }

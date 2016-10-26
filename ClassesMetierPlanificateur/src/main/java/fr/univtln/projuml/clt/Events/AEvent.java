@@ -74,4 +74,10 @@ public abstract class AEvent {
         this.creationDate = creationDate;
         this.duration = duration;
     }
+
+    public AEvent(String title, boolean isPrivate, int duration) {
+        this.title = title;
+        this.isPrivate = isPrivate;
+        this.duration = duration;
+    }
 }
