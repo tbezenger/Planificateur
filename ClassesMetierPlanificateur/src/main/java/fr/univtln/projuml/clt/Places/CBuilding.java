@@ -13,4 +13,20 @@ public class CBuilding {
         this.name = name;
         this.adress = adress;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -54,4 +54,8 @@ public class CUser {
     public CUser(String firstName) {
         this.firstName = firstName;
     }
+
+    public boolean isGuest(){
+        return mail == null;
+    }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class COption {
+    private int id;
     private String title;
     private ArrayList<CUser> voters;
 
@@ -30,6 +31,10 @@ public class COption {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public COption(String title) {
