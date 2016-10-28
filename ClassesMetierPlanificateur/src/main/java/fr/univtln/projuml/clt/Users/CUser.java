@@ -42,12 +42,15 @@ public class CUser {
     }
 
     public CUser(String mail, String firstName, String lastName, int password) {
-        this.mail = mail;
+        this(mail,password);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
     }
 
+    public CUser(String mail, int password){
+        this.mail = mail;
+        this.password = password;
+    }
     public CUser(String firstName) {
         this.firstName = firstName;
     }
