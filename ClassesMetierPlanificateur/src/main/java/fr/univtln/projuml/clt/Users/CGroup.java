@@ -1,8 +1,9 @@
 package fr.univtln.projuml.clt.Users;
 
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 
 /**
@@ -11,10 +12,16 @@ import java.util.ArrayList;
 
 @Entity
 @NamedQueries(
-        @NamedQuery()
+        @NamedQuery(name = CGroup.FIND_GROUP_ALL, query =
+                "select grp from CGroup grp")
 )
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = CGroup.class)
 public class CGroup {
 
+    @TableGenerator(name = "groupGenerator", allocationSize = 1, initialValue = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "groupGenerator")
+    @Column(name = "group_id")
     private int id;
     private String name;
     private CUser owner;
