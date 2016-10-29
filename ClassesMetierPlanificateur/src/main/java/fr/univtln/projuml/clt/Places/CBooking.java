@@ -6,6 +6,7 @@ import fr.univtln.projuml.clt.Events.CMeeting;
  * Created by tomy- on 18/10/2016.
  */
 public class CBooking {
+
     private final CRoom room;
     private final CMeeting meeting;
 

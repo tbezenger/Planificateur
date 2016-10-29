@@ -8,6 +8,8 @@ public class CBuilding {
     private String name;
     private String adress;
 
+    public CBuilding() {}
+
     public CBuilding(int id, String name, String adress) {
         this.id = id;
         this.name = name;

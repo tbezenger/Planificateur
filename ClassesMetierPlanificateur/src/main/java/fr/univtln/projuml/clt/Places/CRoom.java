@@ -9,6 +9,8 @@ public class CRoom {
     private int capacity;
     private CBuilding building;
 
+    public CRoom() {}
+
     public CRoom(int id, int number, int capacity, CBuilding building) {
         this.id = id;
         this.number = number;
