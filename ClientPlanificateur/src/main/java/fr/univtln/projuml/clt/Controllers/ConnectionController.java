@@ -10,29 +10,31 @@ public class ConnectionController {
     private ConnectionView connectionView;
     private ConnectionModel connectionModel;
 
-    public boolean createAccount(String mail, String pw, String pwValidation){
-        if (pw.equals(pwValidation))
+    public void createAccount(String mail, String pw, String pwValidation){
+        if (!pw.equals(pwValidation))
+            connectionView.setErreurCreationCompteText("les deux mdp ne sont pas identiques");
 
-            return false;
+        else if (!mail.contains("@"))
+            connectionView.setErreurCreationCompteText("adresse mail invalide");
 
-        if (!mail.contains("@"))
-            // throw exception
-            return false;
-        connectionModel.createAccount(mail,pw);
-
-        return true;
+        else {
+            connectionModel.createAccount(mail, pw);
+            connectionView.getStage().close();
+        }
     }
 
-    public boolean userConnection(String mail, String pw){
-        return connectionModel.userConnection(mail, pw);
-    }
+    public void userConnection(String mail, String pw){
 
-    public ConnectionController(ConnectionModel connectionModel){
-        this.connectionModel = connectionModel;
+        if(connectionModel.userConnection(mail, pw))
+            // TODO : pas oublier de dire a la page principale de virer login pour un logout
+            connectionView.getStage().close();
+        else {
+            connectionView.getCompteInexistantText().setVisible(true);
+        }
     }
 
     public ConnectionController(ConnectionView connectionView, ConnectionModel connectionModel) {
-        this(connectionModel);
+        this.connectionModel = connectionModel;
         this.connectionView = connectionView;
     }
 }
