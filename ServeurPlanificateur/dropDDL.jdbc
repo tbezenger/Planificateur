@@ -1,0 +1,11 @@
+ALTER TABLE cgroup DROP CONSTRAINT FK_cgroup_user_id
+ALTER TABLE cuser_cgroup DROP CONSTRAINT FK_cuser_cgroup_CUser_user_id
+ALTER TABLE cuser_cgroup DROP CONSTRAINT FK_cuser_cgroup_groups_group_id
+ALTER TABLE cgroup_cuser DROP CONSTRAINT FK_cgroup_cuser_CGroup_group_id
+ALTER TABLE cgroup_cuser DROP CONSTRAINT FK_cgroup_cuser_users_user_id
+DROP TABLE cuser
+DROP TABLE cgroup
+DROP TABLE cuser_cgroup
+DROP TABLE cgroup_cuser
+DELETE FROM SEQUENCE WHERE SEQ_NAME = 'groupGenerator'
+DELETE FROM SEQUENCE WHERE SEQ_NAME = 'userGenerator'

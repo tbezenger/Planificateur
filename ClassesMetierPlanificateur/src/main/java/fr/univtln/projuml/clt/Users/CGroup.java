@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by tomy- on 18/10/2016.
  */
 
 @Entity
+@Table(name = "cgroup")
 @NamedQueries(
         @NamedQuery(name = CGroup.FIND_GROUP_ALL, query =
                 "select grp from CGroup grp")
@@ -20,30 +23,27 @@ public class CGroup {
 
     @TableGenerator(name = "groupGenerator", allocationSize = 1, initialValue = 1)
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "groupGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "groupGenerator")
     @Column(name = "group_id")
     private int id;
     private String name;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_id")
     private CUser owner;
-    private ArrayList<CUser> members;
+
+    private Set<CUser> users;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinTable(name = "group_user",
+            joinColumns = @JoinColumn(name = "group_id", nullable = false, updatable = false),
+            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false))
+    public Set<CUser> getUsers() { return users; }
+
 
     public static final String FIND_GROUP_ALL = "findGroupByAll";
 
-    public void addMember(CUser pUser){
-        this.members.add(pUser);
-    }
-
-    public void subMember(CUser pUser){
-        this.members.remove(pUser);
-    }
-
-    public CUser getOwner() {
-        return owner;
-    }
-
-    public ArrayList<CUser> getMembers() {
-        return members;
-    }
+    public void setId(int id) { this.id = id; }
 
     public int getId() {
         return id;
@@ -53,19 +53,20 @@ public class CGroup {
         return name;
     }
 
-    public void setMembers(ArrayList<CUser> members) {
-        this.members = members;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public CGroup() {}
+    public void addUser(CUser user) { users.add(user); }
 
-    public CGroup(String name, CUser owner) {
-        this.owner = owner;
+    public void removeUser(CUser user) { users.remove(user); }
+
+    public CUser getOwner() { return owner; }
+
+    public void setOwner(CUser owner) { this.owner = owner; }
+
+    public CGroup() { users = new HashSet<CUser>(); }
+
+    public CGroup(String name) {
         this.name = name;
-    }
-
-    public CGroup(String name, CUser owner, ArrayList<CUser> members) {
-        this(name, owner);
-        this.members = members;
+        users = new HashSet<CUser>();
     }
 }
