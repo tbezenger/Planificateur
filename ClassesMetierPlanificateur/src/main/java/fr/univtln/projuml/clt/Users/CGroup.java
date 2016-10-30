@@ -4,16 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by tomy- on 18/10/2016.
  */
 
 @Entity
-@Table(name = "cgroup")
 @NamedQueries(
         @NamedQuery(name = CGroup.FIND_GROUP_ALL, query =
                 "select grp from CGroup grp")
@@ -32,13 +29,13 @@ public class CGroup {
     @JoinColumn(name = "user_id")
     private CUser owner;
 
-    private Set<CUser> users;
+    private List<CUser> users;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(name = "group_user",
             joinColumns = @JoinColumn(name = "group_id", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false))
-    public Set<CUser> getUsers() { return users; }
+    public List<CUser> getUsers() { return users; }
 
 
     public static final String FIND_GROUP_ALL = "findGroupByAll";
@@ -63,10 +60,10 @@ public class CGroup {
 
     public void setOwner(CUser owner) { this.owner = owner; }
 
-    public CGroup() { users = new HashSet<CUser>(); }
+    public CGroup() { users = new ArrayList<CUser>(); }
 
     public CGroup(String name) {
         this.name = name;
-        users = new HashSet<CUser>();
+        users = new ArrayList<CUser>();
     }
 }

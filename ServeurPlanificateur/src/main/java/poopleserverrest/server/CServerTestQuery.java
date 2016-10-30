@@ -6,6 +6,8 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import fr.univtln.projuml.clt.Places.CBuilding;
+import fr.univtln.projuml.clt.Places.CRoom;
 import fr.univtln.projuml.clt.Users.CGroup;
 import fr.univtln.projuml.clt.Users.CUser;
 
@@ -56,5 +58,13 @@ public class CServerTestQuery {
 
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u1);
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u2);
+
+
+        CBuilding b = new CBuilding().setId(1).setName("lolBuild").setAdress("2 rues apres XD");
+        CRoom r1 = new CRoom().setId(1).setNumber(20).setCapacity(25).setBuilding(b);
+        CRoom r2 = new CRoom().setId(2).setNumber(22).setCapacity(30).setBuilding(b);
+
+        webResource.path("rooms").type(MediaType.APPLICATION_JSON).post(r1);
+        webResource.path("rooms").type(MediaType.APPLICATION_JSON).post(r2);
     }
 }

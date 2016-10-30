@@ -13,7 +13,6 @@ import java.util.*;
  */
 
 @Entity
-@Table(name = "cuser")
 @NamedQueries(
         @NamedQuery(name = CUser.FIND_USER_ALL, query =
                 "select user from CUser user")
@@ -32,10 +31,10 @@ public class CUser implements Serializable{
     private String lastName;
     private int password;
 
-    private Set<CGroup> groups;
+    private List<CGroup> groups;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "users")
-    public Set<CGroup> getGroups() { return groups; }
+    public List<CGroup> getGroups() { return groups; }
 
     public static final String FIND_USER_ALL = "findUserByAll";
 
@@ -79,23 +78,23 @@ public class CUser implements Serializable{
         this.password = password;
     }
 
-    public CUser() { groups = new HashSet<CGroup>(); }
+    public CUser() { groups = new ArrayList<CGroup>(); }
 
     public CUser(String mail, String firstName, String lastName, int password) {
         this(mail,password);
         this.firstName = firstName;
         this.lastName = lastName;
-        groups = new HashSet<CGroup>();
+        groups = new ArrayList<CGroup>();
     }
 
     public CUser(String mail, int password){
         this.mail = mail;
         this.password = password;
-        groups = new HashSet<CGroup>();
+        groups = new ArrayList<CGroup>();
     }
     public CUser(String firstName) {
         this.firstName = firstName;
-        groups = new HashSet<CGroup>();
+        groups = new ArrayList<CGroup>();
     }
 
     public boolean isGuest(){

@@ -14,9 +14,9 @@
 		<!--<class>fr.univtln.projuml.clt.Events.COption</class>-->
 		<!--<class>fr.univtln.projuml.clt.Events.CSurvey</class>-->
 
-		<!--<class>fr.univtln.projuml.clt.Places.CRoom</class>-->
+		<class>fr.univtln.projuml.clt.Places.CRoom</class>
 		<!--<class>fr.univtln.projuml.clt.Places.CBooking</class>-->
-		<!--<class>fr.univtln.projuml.clt.Places.CBuilding</class>-->
+		<class>fr.univtln.projuml.clt.Places.CBuilding</class>
 
 		<properties>
 
