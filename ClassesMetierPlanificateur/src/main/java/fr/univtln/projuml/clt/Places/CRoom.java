@@ -1,6 +1,12 @@
 package fr.univtln.projuml.clt.Places;
 
+import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CMeeting;
+
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tomy- on 18/10/2016.
@@ -11,7 +17,7 @@ import javax.persistence.*;
         @NamedQuery(name = CRoom.FIND_ROOM_BY_ALL, query =
                 "select room from CRoom room")
 )
-public class CRoom {
+public class CRoom implements Serializable{
 
     @TableGenerator(name = "roomGenerator", allocationSize = 1, initialValue = 1)
     @Id
@@ -25,7 +31,14 @@ public class CRoom {
     @JoinColumn(name = "building_id")
     private CBuilding building;
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "meetingRooms")
+    private List<CMeeting> roomEvents = new ArrayList<CMeeting>();
+
     public static final String FIND_ROOM_BY_ALL = "findRoomByAll";
+
+
+    //////// builders ////////
+
 
     public CRoom() {}
 
@@ -34,6 +47,14 @@ public class CRoom {
         this.number = number;
         this.capacity = capacity;
     }
+
+
+    //////// methods ////////
+
+
+    public void addMeeting(CMeeting pMeeting) { roomEvents.add(pMeeting); }
+
+    public void removeMeeting(CMeeting pMeeting) { roomEvents.remove(pMeeting); }
 
     public int getId() {
         return id;

@@ -1,27 +1,72 @@
 package fr.univtln.projuml.clt.Events;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.univtln.projuml.clt.Users.CUser;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tomy- on 18/10/2016.
  */
-public abstract class AEvent {
-    private int id = 0;
 
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@NamedQueries(
+        @NamedQuery(name = AEvent.AEVENT_BY_ALL, query =
+                "select event from AEvent event")
+)
+@DiscriminatorColumn(name = "event_type ")
+@MappedSuperclass
+@JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include= JsonTypeInfo.As.PROPERTY, property="@class")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = AEvent.class)
+public abstract class AEvent implements Serializable {
+
+    @TableGenerator(name = "eventGenerator",allocationSize = 1, initialValue = 1)
+    @Id
+    @GeneratedValue(strategy= GenerationType.TABLE, generator="eventGenerator")
+    @Column(name="event_id")
+    private int id;
     private String title;
-
     private boolean isPrivate = false;
-
     private Date creationDate;
-
-    /**
-     * duree de vie de l'evenement en jours
-     */
+    // duree de vie de l'evenement en jours
     private int duration;
 
-    private final CUser creator = null;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_id")
+    private CUser creator;
+
+    public static final String AEVENT_BY_ALL = "eventByAll";
+
+
+    //////// builders ////////
+
+
+    public AEvent() {}
+
+    public AEvent(int id, String title, boolean isPrivate, Date creationDate, int duration) {
+        this.id = id;
+        this.title = title;
+        this.isPrivate = isPrivate;
+        this.creationDate = creationDate;
+        this.duration = duration;
+    }
+
+    public AEvent(String title, boolean isPrivate, int duration) {
+        this.title = title;
+        this.isPrivate = isPrivate;
+        this.duration = duration;
+    }
+
+
+    //////// methods ////////
+
 
     public CUser getCreator() {
         return creator;
@@ -67,17 +112,8 @@ public abstract class AEvent {
         this.duration = duration;
     }
 
-    public AEvent(int id, String title, boolean isPrivate, Date creationDate, int duration) {
-        this.id = id;
-        this.title = title;
-        this.isPrivate = isPrivate;
-        this.creationDate = creationDate;
-        this.duration = duration;
-    }
-
-    public AEvent(String title, boolean isPrivate, int duration) {
-        this.title = title;
-        this.isPrivate = isPrivate;
-        this.duration = duration;
+    public AEvent setCreator(CUser creator) {
+        this.creator = creator;
+        return this;
     }
 }

@@ -1,7 +1,7 @@
-package poopleserverrest.services;
+package poopleserverrest.services.events;
 
-import fr.univtln.projuml.clt.Places.CRoom;
-import fr.univtln.projuml.clt.Users.CGroup;
+import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.COption;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
 
@@ -12,42 +12,42 @@ import java.util.List;
 import static poopleserverrest.dao.CCrudServiceBean.em;
 
 /**
- * Created by clemzux on 30/10/16.
+ * Created by clemzux on 01/11/16.
  */
 
-@Path("/rooms")
+@Path("/options")
 @Produces("application/json")
 @Consumes("application/json")
-public class CRoomServices {
+public class COptionServices {
 
-    public static ICrudService<CRoom> sCrudRoom = new CCrudServiceBean<CRoom>();
+    public static ICrudService<COption> sCrudOptions = new CCrudServiceBean<COption>();
 
 
     //////// crud operations
 
 
-    // retourne toutes les rooms
+    // retourne tout les utilisateurs
     @GET
     @Produces("application/json")
-    public static List<CRoom> roomAll() {
-        return (List<CRoom>) sCrudRoom.findWithNamedQuery(CRoom.FIND_ROOM_BY_ALL);
+    public static List<COption> optionAll() {
+        return (List<COption>) sCrudOptions.findWithNamedQuery(COption.OPTION_BY_ALL);
     }
 
     @PUT
     @Produces("application/json")
-    public void putRoom(CRoom pRoom){
+    public void putOption(COption pOption){
         EntityTransaction transac = em.getTransaction();
         transac.begin();
-        sCrudRoom.update(pRoom);
+        sCrudOptions.update(pOption);
         transac.commit();
     }
 
     @POST
     @Produces("application/json")
-    public void postRoom(CRoom pRoom) {
+    public void postOption(COption pOption) {
         EntityTransaction transac = em.getTransaction();
         transac.begin();
-        sCrudRoom.create(pRoom);
+        sCrudOptions.create(pOption);
         transac.commit();
     }
 }

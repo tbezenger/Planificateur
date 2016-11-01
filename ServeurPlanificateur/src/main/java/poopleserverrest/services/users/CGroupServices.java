@@ -1,7 +1,7 @@
-package poopleserverrest.services;
+package poopleserverrest.services.users;
 
-import fr.univtln.projuml.clt.Places.CBuilding;
 import fr.univtln.projuml.clt.Users.CGroup;
+import fr.univtln.projuml.clt.Users.CUser;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
 
@@ -15,12 +15,12 @@ import static poopleserverrest.dao.CCrudServiceBean.em;
  * Created by clemzux on 30/10/16.
  */
 
-@Path("/buildings")
+@Path("/groups")
 @Produces("application/json")
 @Consumes("application/json")
-public class CBuildingServices {
+public class CGroupServices {
 
-    public static ICrudService<CBuilding> sCrudBuilding = new CCrudServiceBean<CBuilding>();
+    public static ICrudService<CGroup> sCrudGroup = new CCrudServiceBean<CGroup>();
 
 
     //////// crud operations
@@ -29,25 +29,25 @@ public class CBuildingServices {
     // retourne tout les groupes
     @GET
     @Produces("application/json")
-    public static List<CBuilding> buildingAll() {
-        return (List<CBuilding>) sCrudBuilding.findWithNamedQuery(CBuilding.FIND_BIULDING_BY_ALL);
+    public static List<CGroup> groupAll() {
+        return (List<CGroup>) sCrudGroup.findWithNamedQuery(CGroup.FIND_GROUP_ALL);
     }
 
     @PUT
     @Produces("application/json")
-    public void putBuilding(CBuilding pBuilding){
+    public void putGroup(CGroup pGroup){
         EntityTransaction transac = em.getTransaction();
         transac.begin();
-        sCrudBuilding.update(pBuilding);
+        sCrudGroup.update(pGroup);
         transac.commit();
     }
 
     @POST
     @Produces("application/json")
-    public void postBuilding(CBuilding pBuilding) {
+    public void postGroup(CGroup pGroup) {
         EntityTransaction transac = em.getTransaction();
         transac.begin();
-        sCrudBuilding.create(pBuilding);
+        sCrudGroup.create(pGroup);
         transac.commit();
     }
 }

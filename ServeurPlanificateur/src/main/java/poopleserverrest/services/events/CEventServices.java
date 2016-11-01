@@ -1,7 +1,6 @@
-package poopleserverrest.services;
+package poopleserverrest.services.events;
 
-import fr.univtln.projuml.clt.Users.CGroup;
-import fr.univtln.projuml.clt.Users.CUser;
+import fr.univtln.projuml.clt.Events.AEvent;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
 
@@ -12,42 +11,42 @@ import java.util.List;
 import static poopleserverrest.dao.CCrudServiceBean.em;
 
 /**
- * Created by clemzux on 30/10/16.
+ * Created by clemzux on 31/10/16.
  */
 
-@Path("/groups")
+@Path("/events")
 @Produces("application/json")
 @Consumes("application/json")
-public class CGroupServices {
+public class CEventServices {
 
-    public static ICrudService<CGroup> sCrudGroup = new CCrudServiceBean<CGroup>();
+    public static ICrudService<AEvent> sCrudEvents = new CCrudServiceBean<AEvent>();
 
 
     //////// crud operations
 
 
-    // retourne tout les groupes
+    // retourne tout les utilisateurs
     @GET
     @Produces("application/json")
-    public static List<CGroup> groupAll() {
-        return (List<CGroup>) sCrudGroup.findWithNamedQuery(CGroup.FIND_GROUP_ALL);
+    public static List<AEvent> eventAll() {
+        return (List<AEvent>) sCrudEvents.findWithNamedQuery(AEvent.AEVENT_BY_ALL);
     }
 
     @PUT
     @Produces("application/json")
-    public void putGroup(CGroup pGroup){
+    public void putEvent(AEvent pEvent){
         EntityTransaction transac = em.getTransaction();
         transac.begin();
-        sCrudGroup.update(pGroup);
+        sCrudEvents.update(pEvent);
         transac.commit();
     }
 
     @POST
     @Produces("application/json")
-    public void postGroup(CGroup pGroup) {
+    public void postEvent(AEvent pEvent) {
         EntityTransaction transac = em.getTransaction();
         transac.begin();
-        sCrudGroup.create(pGroup);
+        sCrudEvents.create(pEvent);
         transac.commit();
     }
 }

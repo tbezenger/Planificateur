@@ -32,9 +32,6 @@ public class CGroup {
     private List<CUser> users;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "group_user",
-            joinColumns = @JoinColumn(name = "group_id", nullable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "user_id", nullable = false, updatable = false))
     public List<CUser> getUsers() { return users; }
 
 
