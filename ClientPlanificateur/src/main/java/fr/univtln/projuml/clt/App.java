@@ -31,23 +31,23 @@ public class App extends Application
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-//        GridPane grid = new GridPane();
-//        Button buttonTest = new Button();
-//        Scene scene = new Scene(grid);
-//        grid.add(buttonTest,0,0);
-//        primaryStage.setScene(scene);
-//        primaryStage.setTitle("test");
-//        buttonTest.setText("clic");
-//        buttonTest.setOnAction(new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent event) {
-//                final Stage stage = new Stage();
-//                Platform.runLater(new Runnable() {
-//                    public void run() {
-//                        ConnectionView.initFX(stage).show();
-//                    }
-//                });
-//            }
-//        });
-//        primaryStage.show();
+        GridPane grid = new GridPane();
+        Button buttonTest = new Button();
+        Scene scene = new Scene(grid);
+        grid.add(buttonTest,0,0);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("test");
+        buttonTest.setText("clic");
+        buttonTest.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                        ConnectionView connectionView = new ConnectionView();
+                        connectionView.setVisible();
+                    }
+                });
+            }
+        });
+        primaryStage.show();
     }
 }

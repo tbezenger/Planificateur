@@ -5,8 +5,6 @@ package fr.univtln.projuml.clt.Views;
 
 import fr.univtln.projuml.clt.Controllers.ConnectionController;
 import fr.univtln.projuml.clt.Models.ConnectionModel;
-import javafx.application.Application;
-import javafx.embed.swing.JFXPanel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,22 +19,28 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sun.plugin.com.event.COMEventHandler;
 
-public class ConnectionView extends Application {
+public class ConnectionView {
+
+    private Stage stage;
+    private Text erreurCreationCompteText = new Text();
+    private Text compteInexistantText = new Text("compte inexistant");
+
+
     public static void main(String[] args) {
-        launch(args);
+
     }
 
-    private static Stage createScene(ConnectionModel connectionModel, final Stage stage){
-        final ConnectionController connectionController = new ConnectionController(connectionModel);
+    private void createScene(ConnectionController pConnectionController){
+        this.stage = new Stage();
+        final ConnectionController connectionController = pConnectionController;
         final GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER_LEFT);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         final Scene scene = new Scene(grid, 700, 275);
-        stage.setScene(scene);
+        this.stage.setScene(scene);
 
 
         Text leftTitle = new Text("Connexion");
@@ -64,17 +68,14 @@ public class ConnectionView extends Application {
 
         logBtn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                if (connectionController.userConnection(logEMailTextField.getText(), logPwField.getText())){
-                    // TODO : pas oublier de dire a la page principale de virer le bouton login pour un logout
-                    stage.close();
-                }
-                else {
-                    Text compteInexistant = new Text("compte inexistant");
-                    compteInexistant.setFill(Color.RED);
-                    grid.add(compteInexistant,0,4,2,1);
-                }
+                connectionController.userConnection(logEMailTextField.getText(), logPwField.getText());
+
             }
         });
+
+        compteInexistantText.setFill(Color.RED);
+        compteInexistantText.setVisible(false);
+        grid.add(compteInexistantText,0,4,2,1);
 
 
         Text rightTitle = new Text("Nouvel Utilisateur?");
@@ -112,21 +113,39 @@ public class ConnectionView extends Application {
         });
 
 
+        erreurCreationCompteText.setFill(Color.RED);
+        grid.add(erreurCreationCompteText,4,5,2,1);
+
+
         Separator separator = new Separator();
         separator.setOrientation(Orientation.VERTICAL);
         grid.add(separator, 3, 0, 1, 5);
+    }
+
+//    public Stage initFX(Stage stage){
+//        stage = createScene(ConnectionModel.getInstance());
+//        return stage;
+//    }
+
+
+    public ConnectionView(){
+        ConnectionController connectionController = new ConnectionController(this,ConnectionModel.getInstance());
+        createScene(connectionController);
+    }
+
+    public void setVisible(){
+        stage.show();
+    }
+
+    public Stage getStage() {
         return stage;
     }
 
-    public static Stage initFX(Stage stage){
-        stage = createScene(ConnectionModel.getInstance(),stage);
-        return stage;
+    public void setErreurCreationCompteText(String s){
+        erreurCreationCompteText.setText(s);
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Connexion");
-        primaryStage = (createScene(ConnectionModel.getInstance(),primaryStage));
-        primaryStage.show();
+    public Text getCompteInexistantText() {
+        return compteInexistantText;
     }
 }
