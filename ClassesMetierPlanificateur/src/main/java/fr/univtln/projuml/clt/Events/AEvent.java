@@ -116,4 +116,9 @@ public abstract class AEvent implements Serializable {
         this.creator = creator;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
 }

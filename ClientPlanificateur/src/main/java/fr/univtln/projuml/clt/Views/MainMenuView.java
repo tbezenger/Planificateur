@@ -2,6 +2,8 @@ package fr.univtln.projuml.clt.Views;
 
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CMeeting;
+import fr.univtln.projuml.clt.Events.CSurvey;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,14 +23,18 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Created by imnotfood on 01/11/16.
  */
-public class MainMenuView extends Application implements Observer {
+public class MainMenuView implements Observer {
 
     MainMenuController controller;
 
@@ -50,6 +56,7 @@ public class MainMenuView extends Application implements Observer {
     private ListView events;
 
 
+    private Stage primaryStage;
     private Scene primaryScene;
     private GridPane mainPane;
 
@@ -95,8 +102,7 @@ public class MainMenuView extends Application implements Observer {
      */
 
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public Stage getStage() {
 
         initializeElements();
         initializeGridPane();
@@ -146,7 +152,7 @@ public class MainMenuView extends Application implements Observer {
         primaryStage.setMaxHeight(STAGE_HEIGHT);
 
         primaryStage.setScene(primaryScene);
-        primaryStage.show();
+        return primaryStage;
     }
 
 
@@ -197,7 +203,14 @@ public class MainMenuView extends Application implements Observer {
 
 
     public static void main(String[] args) {
-        launch(args);
+        MainMenuModel abc = MainMenuModel.getInstance();
+        AEvent lol = new CSurvey(1, "Bonjour les zaz", false, null, 2, null);
+        AEvent mdr = new CMeeting(2, "Au revoir les zaz", false, null, 5, null, null, null);
+        List<AEvent> events = new ArrayList<AEvent>();
+        events.add(lol);
+        events.add(mdr);
+
+        abc.setEvents(events);
     }
 
 
