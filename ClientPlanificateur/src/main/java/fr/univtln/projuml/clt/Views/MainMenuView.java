@@ -102,11 +102,12 @@ public class MainMenuView implements Observer {
      */
 
 
-    public Stage getStage() {
+    public MainMenuView() {
 
         initializeElements();
         initializeGridPane();
 
+        controller = new MainMenuController();
 
         //On place les éléments
         mainPane.add(eventSearch, 0, 1);
@@ -146,13 +147,14 @@ public class MainMenuView implements Observer {
         primaryScene = new Scene(mainPane);
 
         //Stage settings
+        primaryStage = new Stage();
         primaryStage.setTitle(STAGE_TITLE);
         primaryStage.setResizable(false);
         primaryStage.setMaxWidth(STAGE_WIDTH);
         primaryStage.setMaxHeight(STAGE_HEIGHT);
 
         primaryStage.setScene(primaryScene);
-        return primaryStage;
+        primaryStage.show();
     }
 
 

@@ -30,27 +30,17 @@ import static java.lang.Thread.sleep;
  *
  */
 
-public class App extends Application
-{
+public class App extends Application {
+
     public static void main( String[] args ) {
         Application.launch();
+
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        MainMenuView abcd = new MainMenuView();
-        primaryStage = abcd.getStage();
-        primaryStage.show();
-
-        sleep(5000);
-        MainMenuModel abc = MainMenuModel.getInstance();
-        AEvent lol = new CSurvey(1, "Bonjour les zaz", false, null, 2, null);
-        AEvent mdr = new CMeeting(2, "Au revoir les zaz", false, null, 5, null, null, null);
-        java.util.List<AEvent> events = new ArrayList<AEvent>();
-        events.add(lol);
-        events.add(mdr);
-
-        abc.setEvents(events);
+        MainMenuView welcomeScreen = new MainMenuView();
+        MainMenuModel.getInstance().addObserver(welcomeScreen);
     }
 }
