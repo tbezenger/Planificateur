@@ -3,6 +3,9 @@ package fr.univtln.projuml.clt.Events;
 import fr.univtln.projuml.clt.Users.CUser;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by tomy- on 18/10/2016.
@@ -79,5 +82,7 @@ public abstract class AEvent {
         this.title = title;
         this.isPrivate = isPrivate;
         this.duration = duration;
+        this.creationDate = Date.valueOf(LocalDate.now());
+        Collection<AEvent> collection = new ArrayList<AEvent>();
     }
 }
