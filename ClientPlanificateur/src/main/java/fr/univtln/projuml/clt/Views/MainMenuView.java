@@ -1,6 +1,11 @@
 package fr.univtln.projuml.clt.Views;
 
+import fr.univtln.projuml.clt.Controllers.MainMenuController;
+import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Models.MainMenuModel;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,35 +17,45 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+
 /**
  * Created by imnotfood on 01/11/16.
  */
-public class MainMenuView extends Application {
+public class MainMenuView extends Application implements Observer {
+
+    MainMenuController controller;
+
+    private ObservableList<AEvent> eventList = FXCollections.observableArrayList();
+
+    /*
+     * UI Stuff
+     */
+
+    private ImageView logo;
+
+    private Button startPoll, startMeeting;
+
+    private Button logIn, myEvents, myAccount;
+    private Text loggedAs;
+
+    private TextField eventSearch;
+    private ComboBox eventFilter;
+    private ListView events;
 
 
-    ImageView logo;
-
-    Button startPoll, startMeeting;
-
-    Button logIn, myEvents;
-    Text loggedAs;
-
-    TextField eventSearch;
-    ComboBox eventFilter;
-    ListView events;
-
-
-    Scene primaryScene;
-    GridPane mainPane;
+    private Scene primaryScene;
+    private GridPane mainPane;
 
 
     /*
-     * Constantes
+     * Constants
      */
 
     final private String STAGE_TITLE = "Poople";
@@ -59,18 +74,24 @@ public class MainMenuView extends Application {
     final private String LOG_IN = "Se Connecter";
     final private String LOG_OUT = "Se Déconnecter";
     final private String MY_EVENTS = "Mes Evénements";
+    final private String MY_ACCOUNT = "Mon Compte";
     final private String LOGGED_AS = "connecté en tant que mail@mail.com";
 
     final private String POOPER_LOGO = "pooper_logo.png";
+
+    final private int LOGGED_AS_FONT_SIZE = 10;
+    final private int EVENT_BUTTONS_FONT_SIZE = 25;
 
     final private double START_EVENT_WIDTH = STAGE_WIDTH/3;
     final private double START_EVENT_HEIGHT = STAGE_HEIGHT/5;
     final private double START_EVENT_BUTTON_SPACING = 60;
 
+    final private double EVENT_BOX_SPACING = 20;
+    final private double MY_ACCOUNT_BUTTON_SPACING = 10;
 
 
     /*
-     *
+     * Methods
      */
 
 
@@ -83,8 +104,11 @@ public class MainMenuView extends Application {
 
         //On place les éléments
         mainPane.add(eventSearch, 0, 1);
-        mainPane.add(eventFilter, 0, 3);
-        mainPane.add(events, 0, 4, 2, 4);
+
+        VBox eventBox = new VBox();
+        eventBox.getChildren().addAll(eventFilter, events);
+        eventBox.setSpacing(EVENT_BOX_SPACING);
+        mainPane.add(eventBox, 0, 3, 2, 5);
 
         HBox logoBox = new HBox();
         logoBox.setAlignment(Pos.CENTER);
@@ -104,7 +128,12 @@ public class MainMenuView extends Application {
         loggedBox.getChildren().add(loggedAs);
         mainPane.add(loggedBox, 3, 0, 2, 1);
         mainPane.add(logIn, 4, 1);
-        mainPane.add(myEvents, 4, 8);
+
+        HBox myAccountBox = new HBox();
+        myAccountBox.getChildren().addAll(myEvents, myAccount);
+        myAccountBox.setAlignment(Pos.CENTER_RIGHT);
+        myAccountBox.setSpacing(MY_ACCOUNT_BUTTON_SPACING);
+        mainPane.add(myAccountBox, 4, 8);
 
 
         //Scene settings
@@ -143,24 +172,39 @@ public class MainMenuView extends Application {
 
         startPoll = new Button(START_POLL);
         startPoll.setPrefSize(START_EVENT_WIDTH, START_EVENT_HEIGHT);
+        startPoll.setFont(new Font(EVENT_BUTTONS_FONT_SIZE));
         startMeeting = new Button(START_MEETING);
         startMeeting.setPrefSize(START_EVENT_WIDTH, START_EVENT_HEIGHT);
+        startMeeting.setFont(new Font(EVENT_BUTTONS_FONT_SIZE));
 
         loggedAs = new Text(LOGGED_AS);
-        loggedAs.setFont(new Font(10));
+        loggedAs.setFont(new Font(LOGGED_AS_FONT_SIZE));
         logIn = new Button(LOG_IN);
         myEvents = new Button(MY_EVENTS);
+        myAccount = new Button(MY_ACCOUNT);
 
         Image image = new Image(POOPER_LOGO);
         logo = new ImageView(image);
 
         eventSearch = new TextField(SEARCH);
-        eventFilter = new ComboBox(); //TODO: ObservableList
-        events = new ListView(); //TODO: ObservableList
+
+        eventFilter = new ComboBox();
+        eventFilter.getItems().addAll("Filtres", "Sondages", "Réunions");
+        eventFilter.getSelectionModel().selectFirst();
+
+        events = new ListView();
     }
 
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+
+    public void update(Observable o, Object arg) {
+        if (o instanceof MainMenuModel) {
+            eventList.setAll(((MainMenuModel) o).getEvents());
+            events.setItems(eventList);
+        }
     }
 }
