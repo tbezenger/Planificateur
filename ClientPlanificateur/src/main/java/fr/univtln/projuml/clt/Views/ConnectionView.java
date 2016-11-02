@@ -43,7 +43,7 @@ public class ConnectionView {
         this.stage.setScene(scene);
 
 
-        Text leftTitle = new Text("Connexion");
+        Text leftTitle = new Text("Compte existant");
         leftTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         HBox leftTitleBox = new HBox();
         leftTitleBox.setAlignment(Pos.CENTER);
@@ -95,7 +95,7 @@ public class ConnectionView {
         final PasswordField newPwField = new PasswordField();
         grid.add(newPwField, 5, 2);
 
-        Label newPwValidation = new Label("Confirmation");
+        Label newPwValidation = new Label("Confirmation :");
         grid.add(newPwValidation, 4, 3);
         final PasswordField newPwFieldValidation = new PasswordField();
         grid.add(newPwFieldValidation, 5, 3);
@@ -121,12 +121,6 @@ public class ConnectionView {
         separator.setOrientation(Orientation.VERTICAL);
         grid.add(separator, 3, 0, 1, 5);
     }
-
-//    public Stage initFX(Stage stage){
-//        stage = createScene(ConnectionModel.getInstance());
-//        return stage;
-//    }
-
 
     public ConnectionView(){
         ConnectionController connectionController = new ConnectionController(this,ConnectionModel.getInstance());
