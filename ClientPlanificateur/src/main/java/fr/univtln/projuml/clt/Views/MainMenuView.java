@@ -8,6 +8,8 @@ import fr.univtln.projuml.clt.Models.MainMenuModel;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -78,7 +80,7 @@ public class MainMenuView implements Observer {
     final private String START_MEETING = "Créer Réunion";
     final private String SEARCH = "Rechercher";
     final private String FILTER = "Filtrer";
-    final private String LOG_IN = "Se Connecter";
+    final private String LOG_IN = "Se Connecter / S'inscrire";
     final private String LOG_OUT = "Se Déconnecter";
     final private String MY_EVENTS = "Mes Evénements";
     final private String MY_ACCOUNT = "Mon Compte";
@@ -106,6 +108,7 @@ public class MainMenuView implements Observer {
 
         initializeElements();
         initializeGridPane();
+        setListeners();
 
         controller = new MainMenuController();
 
@@ -204,15 +207,12 @@ public class MainMenuView implements Observer {
     }
 
 
-    public static void main(String[] args) {
-        MainMenuModel abc = MainMenuModel.getInstance();
-        AEvent lol = new CSurvey(1, "Bonjour les zaz", false, null, 2, null);
-        AEvent mdr = new CMeeting(2, "Au revoir les zaz", false, null, 5, null, null, null);
-        List<AEvent> events = new ArrayList<AEvent>();
-        events.add(lol);
-        events.add(mdr);
-
-        abc.setEvents(events);
+    private void setListeners() {
+        logIn.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                new ConnectionView();
+            }
+        });
     }
 
 

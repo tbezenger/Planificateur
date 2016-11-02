@@ -23,23 +23,20 @@ import javafx.stage.Stage;
 public class ConnectionView {
 
     private Stage stage;
+    final GridPane grid = new GridPane();
+    final Scene scene = new Scene(grid, 700, 275);
     private Text erreurCreationCompteText = new Text();
     private Text compteInexistantText = new Text("compte inexistant");
 
 
-    public static void main(String[] args) {
-
-    }
 
     private void createScene(ConnectionController pConnectionController){
         this.stage = new Stage();
         final ConnectionController connectionController = pConnectionController;
-        final GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER_LEFT);
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-        final Scene scene = new Scene(grid, 700, 275);
         this.stage.setScene(scene);
 
 
@@ -114,12 +111,13 @@ public class ConnectionView {
 
 
         erreurCreationCompteText.setFill(Color.RED);
-        grid.add(erreurCreationCompteText,4,5,2,1);
+        grid.add(erreurCreationCompteText, 4, 5, 2, 1);
 
 
         Separator separator = new Separator();
         separator.setOrientation(Orientation.VERTICAL);
         grid.add(separator, 3, 0, 1, 5);
+
     }
 
     public ConnectionView(){
@@ -134,6 +132,8 @@ public class ConnectionView {
     public Stage getStage() {
         return stage;
     }
+
+    public Scene getScene() { return scene; }
 
     public void setErreurCreationCompteText(String s){
         erreurCreationCompteText.setText(s);
