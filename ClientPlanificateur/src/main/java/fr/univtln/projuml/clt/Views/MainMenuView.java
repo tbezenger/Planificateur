@@ -36,6 +36,7 @@ public class MainMenuView implements Observer {
     private ObservableList<AEvent> eventList = FXCollections.observableArrayList();
 
     private CreateSurveyView createSurveyView;
+    private CreateMeetingView createMeetingView;
 
 
     /*
@@ -211,6 +212,14 @@ public class MainMenuView implements Observer {
                 if (createSurveyView == null)
                     createSurveyView = new CreateSurveyView(primaryStage, primaryScene);
                 primaryStage.setScene(createSurveyView.getScene());
+            }
+        });
+
+        startMeeting.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                if (createMeetingView == null)
+                    createMeetingView = new CreateMeetingView(primaryStage, primaryScene);
+                primaryStage.setScene(createMeetingView.getScene());
             }
         });
     }

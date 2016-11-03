@@ -10,6 +10,7 @@ public class AppConstants {
 
     final static public String POOPER_LOGO = "pooper_logo.png";
 
+    final static public String VALIDATE = "Valider";
     final static public String GO_BACK = "Retour";
 
 }
