@@ -1,7 +1,12 @@
 package fr.univtln.projuml.clt;
 
 import com.sun.javafx.tk.*;
+import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CMeeting;
+import fr.univtln.projuml.clt.Events.CSurvey;
+import fr.univtln.projuml.clt.Models.MainMenuModel;
 import fr.univtln.projuml.clt.Views.ConnectionView;
+import fr.univtln.projuml.clt.Views.MainMenuView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -16,38 +21,26 @@ import javafx.stage.Stage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Toolkit;
+import java.util.*;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Hello world!
  *
  */
 
-public class App extends Application
-{
+public class App extends Application {
+
     public static void main( String[] args ) {
         Application.launch();
+
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        GridPane grid = new GridPane();
-        Button buttonTest = new Button();
-        Scene scene = new Scene(grid);
-        grid.add(buttonTest,0,0);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("test");
-        buttonTest.setText("clic");
-        buttonTest.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                Platform.runLater(new Runnable() {
-                    public void run() {
-                        ConnectionView connectionView = new ConnectionView();
-                        connectionView.setVisible();
-                    }
-                });
-            }
-        });
-        primaryStage.show();
+        MainMenuView welcomeScreen = new MainMenuView();
+        MainMenuModel.getInstance().addObserver(welcomeScreen);
     }
 }

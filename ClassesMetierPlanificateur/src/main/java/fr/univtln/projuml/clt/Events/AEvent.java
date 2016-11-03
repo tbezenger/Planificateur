@@ -8,8 +8,9 @@ import fr.univtln.projuml.clt.Users.CUser;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by tomy- on 18/10/2016.
@@ -48,7 +49,8 @@ public abstract class AEvent implements Serializable {
     //////// builders ////////
 
 
-    public AEvent() {}
+    public AEvent() {
+    }
 
     public AEvent(int id, String title, boolean isPrivate, Date creationDate, int duration) {
         this.id = id;
@@ -62,6 +64,8 @@ public abstract class AEvent implements Serializable {
         this.title = title;
         this.isPrivate = isPrivate;
         this.duration = duration;
+        this.creationDate = Date.valueOf(LocalDate.now());
+        Collection<AEvent> collection = new ArrayList<AEvent>();
     }
 
 
@@ -115,5 +119,11 @@ public abstract class AEvent implements Serializable {
     public AEvent setCreator(CUser creator) {
         this.creator = creator;
         return this;
+
+    }
+
+    @Override
+    public String toString() {
+        return this.title;
     }
 }
