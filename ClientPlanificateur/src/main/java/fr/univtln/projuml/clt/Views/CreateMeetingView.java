@@ -9,6 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -56,7 +57,7 @@ public class CreateMeetingView {
      * Constants
      */
 
-    private final String TITLE = "Créer votre Réunion";
+    private final String TITLE = "Créez votre Réunion";
     private final String MEETING_TITLE = "Nom de votre réunion:";
     private final String PICK_A_LOCATION = "Choisissez un lieu:";
     private final String ADDRESS = "Adresse:";
@@ -99,6 +100,7 @@ public class CreateMeetingView {
     private void initializeElements() {
         logo = new ImageView(AppConstants.POOPER_LOGO);
         title = new Text(TITLE);
+        title.setFont(new Font(AppConstants.TITLES_FONT));
 
         meetingTitle = new Text(MEETING_TITLE);
         meetingTitleField = new TextField();
