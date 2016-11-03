@@ -118,6 +118,8 @@ public class ConnectionView {
         separator.setOrientation(Orientation.VERTICAL);
         grid.add(separator, 3, 0, 1, 5);
 
+        stage.show();
+
     }
 
     public ConnectionView(){
