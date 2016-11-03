@@ -1,13 +1,12 @@
 package poopleserverrest.server;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.client.impl.CopyOnWriteHashMap;
-import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.CMeeting;
 import fr.univtln.projuml.clt.Events.COption;
 import fr.univtln.projuml.clt.Events.CSurvey;
@@ -17,7 +16,9 @@ import fr.univtln.projuml.clt.Users.CGroup;
 import fr.univtln.projuml.clt.Users.CUser;
 
 import javax.ws.rs.core.MediaType;
-import java.sql.Date;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +34,6 @@ public class CServerTestQuery {
         Client c = Client.create(cc);
         WebResource webResource = c.resource("http://localhost:10000/");
 //        WebResource webResource = c.resource("http://176.157.85.69:10000/");
-
-
-        // pour gérer les meetings, le faire via un post d'un user
-
 
         CGroup g1 = new CGroup();
         g1.setId(1);
@@ -66,7 +63,7 @@ public class CServerTestQuery {
 
 
 
-        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u1);
+//        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u1);
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u2);
 
 //        webResource.path("groups").type(MediaType.APPLICATION_JSON).post(g1);
@@ -112,5 +109,32 @@ public class CServerTestQuery {
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u1);
         webResource.path("surveys").type(MediaType.APPLICATION_JSON).post(s);
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u2);
+
+        ObjectMapper om = new ObjectMapper();
+
+//        String u = webResource.path("users/id/1").type(MediaType.APPLICATION_JSON).get(String.class);
+//
+//        CUser us;
+//        try {
+//            us = om.readValue(u, CUser.class);
+//            System.out.println(u.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        String v = webResource.path("users").type(MediaType.APPLICATION_JSON).get(String.class);
+        System.out.println(v);
+        List<String> users;
+
+        try {
+            users = om.readValue(v, om.getTypeFactory().constructCollectionType(ArrayList.class, CUser.class));
+            for (String cu : users)
+                System.out.println((om.readValue(cu, CUser.class)).toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        for (CUser cu : users)
+//            System.out.println(cu.toString());
     }
 }

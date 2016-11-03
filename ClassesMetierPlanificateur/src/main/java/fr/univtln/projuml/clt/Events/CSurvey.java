@@ -1,9 +1,6 @@
 package fr.univtln.projuml.clt.Events;
 
-import fr.univtln.projuml.clt.Users.CUser;
-
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;

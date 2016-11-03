@@ -3,6 +3,7 @@ package poopleserverrest.services.users;
 import fr.univtln.projuml.clt.Users.CUser;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -30,6 +31,15 @@ public class CUserServices {
     @Produces("application/json")
     public static List<CUser> userAll() {
         return (List<CUser>) sCrudUser.findWithNamedQuery(CUser.FIND_USER_ALL);
+    }
+
+    // retourne l'utilisateur par son id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static CUser userById(@PathParam("id") final int pId) {
+        return (CUser) sCrudUser.findWithNamedQuery(
+                CUser.FIND_USER_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
     }
 
     @PUT

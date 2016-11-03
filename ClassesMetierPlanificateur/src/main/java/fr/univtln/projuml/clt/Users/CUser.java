@@ -15,10 +15,12 @@ import java.util.*;
  */
 
 @Entity
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = CUser.FIND_USER_ALL, query =
-                "select user from CUser user")
-)
+                "select user from CUser user"),
+        @NamedQuery(name = CUser.FIND_USER_BY_ID, query =
+                "select user from CUser user where user.id = :Pid")
+})
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = CUser.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CUser implements Serializable{
@@ -46,6 +48,7 @@ public class CUser implements Serializable{
     public List<COption> getOptions() { return userOptions; }
 
     public static final String FIND_USER_ALL = "findUserByAll";
+    public static final String FIND_USER_BY_ID = "findUserById";
 
 
     //////// builders ////////

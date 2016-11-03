@@ -30,7 +30,6 @@ public class CGroup {
     private CUser owner;
 
     private List<CUser> users;
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     public List<CUser> getUsers() { return users; }
 
