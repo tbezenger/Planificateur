@@ -29,6 +29,15 @@ public class CSurveyServices {
     //////// crud operations
 
 
+    // retourne un sondage par son titre
+    @GET
+    @Produces("application/json")
+    @Path("/title/{title}")
+    public static CSurvey surveyByTitle(@PathParam("title") final String pTitle) {
+        return (CSurvey) sCrudSurvey.findWithNamedQuery(CSurvey.FIND_SURVEY_BY_TITLE,
+                QueryParameter.with("Ptitle", pTitle).parameters()).get(0);
+    }
+
     // retourne les sondages par id
     @GET
     @Produces("application/json")

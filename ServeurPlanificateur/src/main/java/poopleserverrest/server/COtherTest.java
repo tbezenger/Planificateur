@@ -6,6 +6,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.ClientConfig;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import fr.univtln.projuml.clt.Events.CSurvey;
 import fr.univtln.projuml.clt.Users.CUser;
 
 import javax.ws.rs.core.MediaType;
@@ -27,12 +28,22 @@ public class COtherTest {
 
         ObjectMapper om = new ObjectMapper();
 
-        String u = webResource.path("users/mail/tomy@bezenger.fr").type(MediaType.APPLICATION_JSON).get(String.class);
+//        String u = webResource.path("users/mail/tomy@bezenger.fr").type(MediaType.APPLICATION_JSON).get(String.class);
+//
+//        CUser us;
+//        try {
+//            us = om.readValue(u, CUser.class);
+//            System.out.println(u.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
-        CUser us;
+        String surv = webResource.path("surveys/title/Bonjour").type(MediaType.APPLICATION_JSON).get(String.class);
+
+        CSurvey survey;
         try {
-            us = om.readValue(u, CUser.class);
-            System.out.println(u.toString());
+            survey = om.readValue(surv, CSurvey.class);
+            System.out.println(surv.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
