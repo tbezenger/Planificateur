@@ -97,9 +97,6 @@ public class CMeeting extends AEvent {
 
     @Override
     public String toString() {
-        return "CMeeting{" +
-                "date=" + date +
-                ", hour=" + hour +
-                '}';
+        return title;
     }
 }

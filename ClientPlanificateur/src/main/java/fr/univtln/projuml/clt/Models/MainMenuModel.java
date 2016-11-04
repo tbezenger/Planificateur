@@ -3,6 +3,8 @@ package fr.univtln.projuml.clt.Models;
 import com.sun.jersey.api.client.GenericType;
 import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CMeeting;
+import fr.univtln.projuml.clt.Events.CSurvey;
 
 import javax.ws.rs.core.MediaType;
 import java.util.*;
@@ -19,30 +21,33 @@ public class MainMenuModel extends Observable {
 
     private List<AEvent> events = new ArrayList<AEvent>();
 
-
     public List<AEvent> getEvents() {
         return events;
     }
 
 
-    public void addEvent(AEvent pEvent) {
-        events.add(pEvent);
-        setChanged();
-        notifyObservers();
+    public List<AEvent> getSurveys() {
+        List<AEvent> surveys = new ArrayList<AEvent>();
+        int quantity = events.size();
+        for (int i = 0; i < quantity; i++)
+            if (events.get(i) instanceof CSurvey) {
+                surveys.add((CSurvey) events.get(i));
+            }
+
+        return surveys;
     }
 
 
-    public void deleteEvent(AEvent pEvent) {
-        events.remove(pEvent);
-        setChanged();
-        notifyObservers();
-    }
+    public List<AEvent> getMeetings() {
+        List<AEvent> meetings = new ArrayList<AEvent>();
+        int quantity = events.size();
+        for (int i = 0; i < quantity; i++) {
+            if (events.get(i) instanceof CMeeting) {
+                meetings.add((CMeeting) events.get(i));
+            }
+        }
 
-
-    public void deleteEvent(int pEventIndex) {
-        events.remove(pEventIndex);
-        setChanged();
-        notifyObservers();
+        return meetings;
     }
 
 

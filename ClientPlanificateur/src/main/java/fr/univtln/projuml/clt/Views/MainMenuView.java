@@ -4,6 +4,8 @@ import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -86,6 +88,10 @@ public class MainMenuView implements Observer {
 
     final private int LOGGED_AS_FONT_SIZE = 10;
     final private int EVENT_BUTTONS_FONT_SIZE = 25;
+
+    final private String NO_FILTERS = "Filtres";
+    final private String SURVEYS_FILTER = "Sondages";
+    final private String MEETINGS_FILTER = "Réunions";
 
     final private double START_EVENT_WIDTH = AppConstants.WINDOW_WIDTH /3;
     final private double START_EVENT_HEIGHT = AppConstants.WINDOW_HEIGHT /5;
@@ -191,13 +197,13 @@ public class MainMenuView implements Observer {
         myEvents = new Button(MY_EVENTS);
         myAccount = new Button(MY_ACCOUNT);
 
-        Image image = new Image(AppConstants.POOPER_LOGO);
+        Image image = new Image(AppConstants.POOPLE_LOGO);
         logo = new ImageView(image);
 
         eventSearch = new TextField(SEARCH);
 
         eventFilter = new ComboBox();
-        eventFilter.getItems().addAll("Filtres", "Sondages", "Réunions");
+        eventFilter.getItems().addAll(NO_FILTERS, SURVEYS_FILTER, MEETINGS_FILTER);
         eventFilter.getSelectionModel().selectFirst();
 
         events = new ListView();
@@ -234,12 +240,33 @@ public class MainMenuView implements Observer {
                 controller.getAllEvents();
             }
         });
+
+        eventFilter.valueProperty().addListener(new ChangeListener() {
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                if (newValue != oldValue) {
+                    if (((String) newValue).equals(NO_FILTERS))
+                        eventList.setAll(MainMenuModel.getInstance().getEvents());
+                    else if (((String)newValue).equals(SURVEYS_FILTER))
+                        eventList.setAll(MainMenuModel.getInstance().getSurveys());
+                    else
+                        eventList.setAll(MainMenuModel.getInstance().getMeetings());
+                    events.setItems(eventList);
+                }
+            }
+        });
     }
 
 
     public void update(Observable o, Object arg) {
         if (o instanceof MainMenuModel) {
-            eventList.setAll(((MainMenuModel) o).getEvents());
+            String filterValue = (String) eventFilter.getValue();
+
+            if (filterValue.equals(NO_FILTERS))
+                eventList.setAll(((MainMenuModel) o).getEvents());
+            else if (filterValue.equals(SURVEYS_FILTER))
+                eventList.setAll(((MainMenuModel) o).getSurveys());
+            else
+                eventList.setAll(((MainMenuModel) o).getMeetings());
             events.setItems(eventList);
         }
     }

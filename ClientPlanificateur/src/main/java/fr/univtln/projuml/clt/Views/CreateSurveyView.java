@@ -139,7 +139,7 @@ public class CreateSurveyView {
 
 
     private void initializeElements() {
-        logo = new ImageView(AppConstants.POOPER_LOGO);
+        logo = new ImageView(AppConstants.POOPLE_LOGO);
         title = new Text(TITLE);
         title.setFont(new Font(AppConstants.TITLES_FONT));
 

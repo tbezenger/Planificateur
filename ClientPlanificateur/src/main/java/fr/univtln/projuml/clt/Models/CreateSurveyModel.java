@@ -16,10 +16,6 @@ import static java.lang.Thread.sleep;
  */
 public class CreateSurveyModel {
 
-    /* Meeting
-     * webResource.path("meetings").type(MediaType.APPLICATION_JSON).post(m1);
-     */
-
     private static CreateSurveyModel createSurveyModel = new CreateSurveyModel();
     private CreateSurveyModel() {}
     public static CreateSurveyModel getInstance() {

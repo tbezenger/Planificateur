@@ -29,7 +29,7 @@ public abstract class AppConstants {
 
     public static final int TITLES_FONT = 25;
 
-    public static final String POOPER_LOGO = "pooper_logo.png";
+    public static final String POOPLE_LOGO = "poople_logo.png";
 
     public static final String VALIDATE = "Valider";
     public static final String CLEAR_VALUES = "Réinitialiser";

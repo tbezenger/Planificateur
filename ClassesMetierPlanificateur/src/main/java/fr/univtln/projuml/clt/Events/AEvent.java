@@ -39,11 +39,11 @@ public abstract class AEvent implements Serializable {
     @Column(name="event_id")
     private int id;
     @Column(unique = true)
-    private String title;
-    private boolean isPrivate = false;
-    private Date creationDate;
+    protected String title;
+    protected boolean isPrivate = false;
+    protected Date creationDate;
     // duree de vie de l'evenement en jours
-    private int duration;
+    protected int duration;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")

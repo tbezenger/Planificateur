@@ -1,6 +1,7 @@
 package fr.univtln.projuml.clt.Views;
 
 import fr.univtln.projuml.clt.AppConstants;
+import fr.univtln.projuml.clt.Controllers.CreateMeetingController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -20,6 +21,8 @@ import javafx.stage.Stage;
  * Created by imnotfood on 03/11/16.
  */
 public class CreateMeetingView {
+
+    CreateMeetingController controller;
 
     /*
      * UI Stuff
@@ -67,8 +70,8 @@ public class CreateMeetingView {
     private final String BUILDING = "Nom du bâtiment:";
     private final String ROOM_NUMBER = "Numéro de salle:";
     private final String PICK_A_DATE = "Choisissez une date:";
-    private final String DATE = "Date:";
-    private final String TIME = "Heure:";
+    private final String DATE = "Date (jj/mm/aaaa):";
+    private final String TIME = "Heure (hh:mm):";
     private final String MAKE_PRIVATE = "définir comme privé";
 
     private final double FIELDS_BOX_SPACING = 15;
@@ -82,6 +85,7 @@ public class CreateMeetingView {
     public CreateMeetingView(Stage stage, Scene previousScene) {
         appStage = stage;
         this.previousScene = previousScene;
+        controller = new CreateMeetingController(this);
 
         initializeElements();
         initializeMainPane();
@@ -162,7 +166,7 @@ public class CreateMeetingView {
 
 
     private void initializeElements() {
-        logo = new ImageView(AppConstants.POOPER_LOGO);
+        logo = new ImageView(AppConstants.POOPLE_LOGO);
         title = new Text(TITLE);
         title.setFont(new Font(AppConstants.TITLES_FONT));
 
@@ -201,6 +205,22 @@ public class CreateMeetingView {
                 dateField.clear();
                 timeField.clear();
                 makePrivate.setSelected(false);
+            }
+        });
+
+        validate.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                String lTitle, lAddress, lBuilding, lRoomNumber, lDate, lTime;
+
+                boolean lPrivateMeeting = makePrivate.isSelected();
+                lTitle = meetingTitleField.getText();
+                lAddress = addressField.getText();
+                lBuilding = buildingField.getText();
+                lRoomNumber = roomNumberField.getText();
+                lDate = dateField.getText();
+                lTime = timeField.getText();
+
+                controller.createMeeting(lTitle, lAddress, lBuilding, lRoomNumber, lDate, lTime, lPrivateMeeting);
             }
         });
 
