@@ -35,4 +35,7 @@ public abstract class AppConstants {
     public static final String CLEAR_VALUES = "Réinitialiser";
     public static final String GO_BACK = "Retour";
 
+    public static final String LOG_IN = "Se Connecter / S'inscrire";
+    public static final String LOG_OUT = "Se Déconnecter";
+
 }

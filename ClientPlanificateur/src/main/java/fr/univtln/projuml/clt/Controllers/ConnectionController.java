@@ -25,9 +25,11 @@ public class ConnectionController {
 
     public void userConnection(String mail, String pw){
 
-        if(connectionModel.userConnection(mail, pw))
+        if(connectionModel.userConnection(mail, pw)){
             // TODO : pas oublier de dire a la page principale de virer login pour un logout
+            connectionView.getCompteInexistantText().setVisible(false);
             connectionView.getStage().close();
+        }
         else {
             connectionView.getCompteInexistantText().setVisible(true);
         }

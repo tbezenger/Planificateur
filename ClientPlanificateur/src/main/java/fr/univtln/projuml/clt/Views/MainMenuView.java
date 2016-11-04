@@ -3,6 +3,7 @@ package fr.univtln.projuml.clt.Views;
 import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CSurvey;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +21,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,6 +41,7 @@ public class MainMenuView implements Observer {
 
     private CreateSurveyView createSurveyView;
     private CreateMeetingView createMeetingView;
+    private AnswerSurveyView answerSurveyView;
 
 
     /*
@@ -79,8 +82,6 @@ public class MainMenuView implements Observer {
     final private String START_MEETING = "Créer Réunion";
     final private String SEARCH = "Rechercher";
     final private String FILTER = "Filtrer";
-    final private String LOG_IN = "Se Connecter / S'inscrire";
-    final private String LOG_OUT = "Se Déconnecter";
     final private String MY_EVENTS = "Mes Evénements";
     final private String MY_ACCOUNT = "Mon Compte";
     final private String LOGGED_AS = "connecté en tant que mail@mail.com";
@@ -193,7 +194,7 @@ public class MainMenuView implements Observer {
 
         loggedAs = new Text(LOGGED_AS);
         loggedAs.setFont(new Font(LOGGED_AS_FONT_SIZE));
-        logIn = new Button(LOG_IN);
+        logIn = new Button(AppConstants.LOG_IN);
         myEvents = new Button(MY_EVENTS);
         myAccount = new Button(MY_ACCOUNT);
 
@@ -246,11 +247,22 @@ public class MainMenuView implements Observer {
                 if (newValue != oldValue) {
                     if (((String) newValue).equals(NO_FILTERS))
                         eventList.setAll(MainMenuModel.getInstance().getEvents());
-                    else if (((String)newValue).equals(SURVEYS_FILTER))
+                    else if (((String) newValue).equals(SURVEYS_FILTER))
                         eventList.setAll(MainMenuModel.getInstance().getSurveys());
                     else
                         eventList.setAll(MainMenuModel.getInstance().getMeetings());
                     events.setItems(eventList);
+                }
+            }
+        });
+
+        events.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                if (events.getSelectionModel().getSelectedItem() instanceof CSurvey) {
+                    if (answerSurveyView == null)
+                        answerSurveyView = new AnswerSurveyView(primaryStage, primaryScene);
+                    controller.openSurvey((CSurvey) events.getSelectionModel().getSelectedItem());
+                    primaryStage.setScene(answerSurveyView.getScene());
                 }
             }
         });

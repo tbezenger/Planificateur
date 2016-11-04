@@ -1,14 +1,12 @@
 package fr.univtln.projuml.clt.Controllers;
 
-import com.sun.jersey.api.client.GenericType;
-import fr.univtln.projuml.clt.AppConstants;
-import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CSurvey;
+import fr.univtln.projuml.clt.Models.AnswerSurveyModel;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
+import fr.univtln.projuml.clt.Views.AnswerSurveyView;
 import fr.univtln.projuml.clt.Views.MainMenuView;
-
-import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  * Created by ltonnet637 on 02/11/16.
@@ -21,6 +19,11 @@ public class MainMenuController {
     public MainMenuController(MainMenuView pView) {
         this.view = pView;
         getAllEvents();
+    }
+
+
+    public void openSurvey(CSurvey pSurvey) {
+        AnswerSurveyModel.getInstance().setSurvey(pSurvey);
     }
 
     public void getAllEvents() {
