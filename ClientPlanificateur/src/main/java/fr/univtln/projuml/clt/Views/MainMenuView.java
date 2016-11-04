@@ -4,8 +4,9 @@ import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.CSurvey;
-import fr.univtln.projuml.clt.Models.AnswerSurveyModel;
+import fr.univtln.projuml.clt.Models.ConnectionModel;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
+import fr.univtln.projuml.clt.Users.CUser;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -53,7 +54,7 @@ public class MainMenuView implements Observer {
 
     private Button startSurvey, startMeeting;
 
-    private Button logIn, myEvents, myAccount;
+    private Button logIn, myEvents, myAccount, logOut;
     private Text loggedAs;
 
     private TextField eventSearch;
@@ -85,7 +86,6 @@ public class MainMenuView implements Observer {
     final private String FILTER = "Filtrer";
     final private String MY_EVENTS = "Mes Evénements";
     final private String MY_ACCOUNT = "Mon Compte";
-    final private String LOGGED_AS = "connecté en tant que mail@mail.com";
     final private String ACTUALIZE = "Actualiser";
 
     final private int LOGGED_AS_FONT_SIZE = 10;
@@ -142,6 +142,8 @@ public class MainMenuView implements Observer {
         loggedBox.getChildren().add(loggedAs);
         mainPane.add(loggedBox, 3, 0, 2, 1);
         mainPane.add(logIn, 4, 1);
+        mainPane.add(logOut, 4, 1);
+
 
         HBox myAccountBox = new HBox();
         myAccountBox.getChildren().addAll(myEvents, myAccount);
@@ -193,9 +195,11 @@ public class MainMenuView implements Observer {
         startMeeting.setPrefSize(START_EVENT_WIDTH, START_EVENT_HEIGHT);
         startMeeting.setFont(new Font(EVENT_BUTTONS_FONT_SIZE));
 
-        loggedAs = new Text(LOGGED_AS);
+        loggedAs = new Text();
         loggedAs.setFont(new Font(LOGGED_AS_FONT_SIZE));
         logIn = new Button(AppConstants.LOG_IN);
+        logOut = new Button(AppConstants.LOG_OUT);
+        logOut.setVisible(false);
         myEvents = new Button(MY_EVENTS);
         myAccount = new Button(MY_ACCOUNT);
 
@@ -217,7 +221,13 @@ public class MainMenuView implements Observer {
     private void setListeners() {
         logIn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                new ConnectionView();
+                controller.openConnectionView();
+            }
+        });
+
+        logOut.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                controller.logOut();
             }
         });
 
@@ -278,6 +288,20 @@ public class MainMenuView implements Observer {
             else
                 eventList.setAll(((MainMenuModel) o).getMeetings());
             events.setItems(eventList);
+        }
+        if (o instanceof ConnectionModel){
+            CUser currentUser = ((ConnectionModel) o).getCurrentUser();
+            if (currentUser==null) {
+                loggedAs.setText("");
+                logIn.setVisible(true);
+                logOut.setVisible(false);
+            }
+            else {
+                loggedAs.setText("Connecté en tant que " + currentUser.getMail());
+                logIn.setVisible(false);
+                logOut.setVisible(true);
+
+            }
         }
     }
 

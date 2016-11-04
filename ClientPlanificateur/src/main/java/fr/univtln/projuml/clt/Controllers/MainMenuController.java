@@ -2,8 +2,10 @@ package fr.univtln.projuml.clt.Controllers;
 
 import fr.univtln.projuml.clt.Events.CSurvey;
 import fr.univtln.projuml.clt.Models.AnswerSurveyModel;
+import fr.univtln.projuml.clt.Models.ConnectionModel;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
 import fr.univtln.projuml.clt.Views.AnswerSurveyView;
+import fr.univtln.projuml.clt.Views.ConnectionView;
 import fr.univtln.projuml.clt.Views.MainMenuView;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -21,6 +23,14 @@ public class MainMenuController {
         getAllEvents();
     }
 
+    public void openConnectionView(){
+        new ConnectionView();
+        ConnectionModel.getInstance().addObserver(view);
+    }
+
+    public void logOut(){
+        ConnectionModel.getInstance().setCurrentUser(null);
+    }
 
     public void openSurvey(AnswerSurveyView newView, Stage appStage, Scene mainMenuScene, CSurvey pSurvey) {
         if (newView == null)
