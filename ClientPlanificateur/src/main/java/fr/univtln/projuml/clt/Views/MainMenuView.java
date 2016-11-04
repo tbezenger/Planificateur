@@ -4,6 +4,7 @@ import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.CSurvey;
+import fr.univtln.projuml.clt.Models.AnswerSurveyModel;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -259,10 +260,7 @@ public class MainMenuView implements Observer {
         events.setOnMouseClicked(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 if (events.getSelectionModel().getSelectedItem() instanceof CSurvey) {
-                    if (answerSurveyView == null)
-                        answerSurveyView = new AnswerSurveyView(primaryStage, primaryScene);
-                    controller.openSurvey((CSurvey) events.getSelectionModel().getSelectedItem());
-                    primaryStage.setScene(answerSurveyView.getScene());
+                    controller.openSurvey(answerSurveyView, primaryStage, primaryScene, (CSurvey) events.getSelectionModel().getSelectedItem());
                 }
             }
         });
@@ -281,6 +279,17 @@ public class MainMenuView implements Observer {
                 eventList.setAll(((MainMenuModel) o).getMeetings());
             events.setItems(eventList);
         }
+    }
+
+
+
+    public AnswerSurveyView getAnswerSurveyView() {
+        return answerSurveyView;
+    }
+
+
+    public void setAnswerSurveyView(AnswerSurveyView newView) {
+        answerSurveyView = newView;
     }
 
 

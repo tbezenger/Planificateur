@@ -22,8 +22,12 @@ public class MainMenuController {
     }
 
 
-    public void openSurvey(CSurvey pSurvey) {
+    public void openSurvey(AnswerSurveyView newView, Stage appStage, Scene mainMenuScene, CSurvey pSurvey) {
+        if (newView == null)
+            view.setAnswerSurveyView(new AnswerSurveyView(appStage, mainMenuScene));
+        AnswerSurveyModel.getInstance().addObserver(view.getAnswerSurveyView());
         AnswerSurveyModel.getInstance().setSurvey(pSurvey);
+        appStage.setScene(view.getAnswerSurveyView().getScene());
     }
 
     public void getAllEvents() {
