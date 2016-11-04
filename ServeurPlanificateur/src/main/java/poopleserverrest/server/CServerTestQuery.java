@@ -33,8 +33,8 @@ public class CServerTestQuery {
         ClientConfig cc = new DefaultClientConfig();
         cc.getClasses().add(JacksonJsonProvider.class);
         Client c = Client.create(cc);
-        WebResource webResource = c.resource("http://localhost:10000/");
-//        WebResource webResource = c.resource("http://176.157.85.69:10000/");
+        WebResource webResource = c.resource("http://localhost:9999/");
+//        WebResource webResource = c.resource("http://176.157.85.69:9999/");
 
         CGroup g1 = new CGroup();
         g1.setId(1);

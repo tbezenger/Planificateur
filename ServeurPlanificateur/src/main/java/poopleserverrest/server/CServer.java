@@ -14,7 +14,7 @@ import java.net.URI;
 public class CServer {
 
     private static int getPort(int defaultPort) {
-        //grab port from environment, otherwise fall back to default port 10000
+        //grab port from environment, otherwise fall back to default port 9999
         String httpPort = System.getProperty("jersey.test.port");
         if (null != httpPort) {
             try {
@@ -26,7 +26,7 @@ public class CServer {
     }
 
     private static URI getBaseURI() {
-        return UriBuilder.fromUri("http://0.0.0.0/").port(getPort(10000)).build();
+        return UriBuilder.fromUri("http://0.0.0.0/").port(getPort(9999)).build();
     }
 
     public static final URI BASE_URI = getBaseURI();
