@@ -1,7 +1,10 @@
 package fr.univtln.projuml.clt.Models;
 
+import com.sun.jersey.api.client.GenericType;
+import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Events.AEvent;
 
+import javax.ws.rs.core.MediaType;
 import java.util.*;
 
 /**
@@ -45,6 +48,14 @@ public class MainMenuModel extends Observable {
 
     public void setEvents(List<AEvent> pEvents) {
         this.events = pEvents;
+        setChanged();
+        notifyObservers();
+    }
+
+
+    public void getAllEvents() {
+        setEvents(AppConstants.webResource.path("surveys").type(MediaType.APPLICATION_JSON).get(new GenericType<List<AEvent>>(){}));
+        events.addAll(AppConstants.webResource.path("meetings").type(MediaType.APPLICATION_JSON).get(new GenericType<Collection<? extends AEvent>>(){}));
         setChanged();
         notifyObservers();
     }

@@ -59,6 +59,8 @@ public class MainMenuView implements Observer {
     private Scene primaryScene;
     private GridPane mainPane;
 
+    private Button actualize;
+
 
     /*
      * AppConstants
@@ -80,6 +82,7 @@ public class MainMenuView implements Observer {
     final private String MY_EVENTS = "Mes Evénements";
     final private String MY_ACCOUNT = "Mon Compte";
     final private String LOGGED_AS = "connecté en tant que mail@mail.com";
+    final private String ACTUALIZE = "Actualiser";
 
     final private int LOGGED_AS_FONT_SIZE = 10;
     final private int EVENT_BUTTONS_FONT_SIZE = 25;
@@ -103,7 +106,7 @@ public class MainMenuView implements Observer {
         initializeGridPane();
         setListeners();
 
-        controller = new MainMenuController();
+        controller = new MainMenuController(this);
 
         //On place les éléments
         mainPane.add(eventSearch, 0, 1);
@@ -139,6 +142,7 @@ public class MainMenuView implements Observer {
         mainPane.add(myAccountBox, 4, 8);
 
 
+        mainPane.add(actualize, 4, 7);
         //Scene settings
         primaryScene = new Scene(mainPane);
 
@@ -197,6 +201,8 @@ public class MainMenuView implements Observer {
         eventFilter.getSelectionModel().selectFirst();
 
         events = new ListView();
+
+        actualize = new Button(ACTUALIZE);
     }
 
 
@@ -220,6 +226,12 @@ public class MainMenuView implements Observer {
                 if (createMeetingView == null)
                     createMeetingView = new CreateMeetingView(primaryStage, primaryScene);
                 primaryStage.setScene(createMeetingView.getScene());
+            }
+        });
+
+        actualize.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                controller.getAllEvents();
             }
         });
     }

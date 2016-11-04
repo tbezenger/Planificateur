@@ -23,7 +23,6 @@ public class CEventServices {
 
     public static ICrudService<AEvent> sCrudEvents = new CCrudServiceBean<AEvent>();
 
-
     //////// crud operations
 
 

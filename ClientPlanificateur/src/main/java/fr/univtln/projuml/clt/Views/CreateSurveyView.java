@@ -1,6 +1,7 @@
 package fr.univtln.projuml.clt.Views;
 
 import fr.univtln.projuml.clt.AppConstants;
+import fr.univtln.projuml.clt.Controllers.CreateSurveyController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -17,11 +18,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by imnotfood on 03/11/16.
  */
 public class CreateSurveyView {
 
+    private CreateSurveyController controller;
 
     /*
      * UI Stuff
@@ -76,6 +81,8 @@ public class CreateSurveyView {
     public CreateSurveyView(Stage stage, Scene previousScene) {
         this.appStage = stage;
         this.previousScene = previousScene;
+
+        controller = new CreateSurveyController(this);
 
         initializeElements();
         initializeMainPane();
@@ -179,6 +186,15 @@ public class CreateSurveyView {
             }
         });
 
+
+        validate.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                List<String> textAnswers = new ArrayList<String>();
+                for (int i = 0; i < answersBox.getChildren().size(); i++)
+                    textAnswers.add((((TextField)((HBox)answersBox.getChildren().get(i)).getChildren().get(1)).getText()));
+                controller.createSurvey(askAQuestionField.getText(), makePrivate.isSelected(), textAnswers);
+            }
+        });
 
         clear.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
