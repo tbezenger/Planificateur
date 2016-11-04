@@ -1,8 +1,13 @@
 package fr.univtln.projuml.clt.Events;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.univtln.projuml.clt.Users.CUser;
 
 import javax.persistence.*;
+import java.awt.peer.SystemTrayPeer;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +16,18 @@ import java.util.List;
  */
 
 @Entity
-@NamedQueries(
-        @NamedQuery(name = COption.OPTION_BY_ALL, query = "select option from COption option")
-)
-public class COption {
+@NamedQueries({
+        @NamedQuery(name = COption.OPTION_BY_ALL, query =
+                "select option from COption option"),
+        @NamedQuery(name = COption.FIND_OPTION_BY_ID, query =
+                "select option from COption option where option.id = :Pid"),
+        @NamedQuery(name = COption.FIND_OPTIONS_BY_SURVEY, query =
+                "select option from COption option " +
+                        "where option.survey.id = :Pid")
+})
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = COption.class)
+//@JsonIgnoreProperties(ignoreUnknown = true)
+public class COption implements Serializable{
 
     @TableGenerator(name = "optionGenerator", allocationSize = 1, initialValue = 1)
     @Id
@@ -30,11 +43,13 @@ public class COption {
         return optionUsers;
     }
 
-    private List<CSurvey> optionSurvey = new ArrayList<CSurvey>();
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "surveyOptions")
-    public List<CSurvey> getOptionSurvey() { return optionSurvey; }
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "event_id")
+    private CSurvey survey;
 
     public static final String OPTION_BY_ALL = "optionAll";
+    public static final String FIND_OPTION_BY_ID = "findOptionById";
+    public static final String FIND_OPTIONS_BY_SURVEY = "findOptionsBySurvey";
 
 
     //////// builders ////////
@@ -49,6 +64,13 @@ public class COption {
 
     //////// methods ////////
 
+
+    public CSurvey getSurvey() { return survey; }
+
+    public COption setSurvey(CSurvey survey) {
+        this.survey = survey;
+        return this;
+    }
 
     public void setOptionUsers(List<CUser> optionUsers) { this.optionUsers = optionUsers; }
 
@@ -75,5 +97,13 @@ public class COption {
     public COption setId(int id) {
         this.id = id;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "COption{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

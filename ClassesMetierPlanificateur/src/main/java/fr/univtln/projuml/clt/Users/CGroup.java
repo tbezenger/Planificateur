@@ -1,9 +1,11 @@
 package fr.univtln.projuml.clt.Users;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -11,12 +13,15 @@ import java.util.*;
  */
 
 @Entity
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = CGroup.FIND_GROUP_ALL, query =
-                "select grp from CGroup grp")
-)
+                "select grp from CGroup grp"),
+        @NamedQuery(name = CGroup.FIND_GROUP_BY_ID, query =
+                "select  grp from CGroup grp where grp.id = :Pid")
+})
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = CGroup.class)
-public class CGroup {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class CGroup implements Serializable{
 
     @TableGenerator(name = "groupGenerator", allocationSize = 1, initialValue = 1)
     @Id
@@ -35,6 +40,7 @@ public class CGroup {
 
 
     public static final String FIND_GROUP_ALL = "findGroupByAll";
+    public static final String FIND_GROUP_BY_ID = "findGroupById";
 
     public void setId(int id) { this.id = id; }
 
@@ -61,5 +67,14 @@ public class CGroup {
     public CGroup(String name) {
         this.name = name;
         users = new ArrayList<CUser>();
+    }
+
+    @Override
+    public String toString() {
+        return "CGroup{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", owner=" + owner +
+                '}';
     }
 }

@@ -1,9 +1,11 @@
 package poopleserverrest.services.places;
 
+import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Places.CRoom;
 import fr.univtln.projuml.clt.Users.CGroup;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -25,6 +27,24 @@ public class CRoomServices {
 
     //////// crud operations
 
+
+    // retourne les rooms par id de batiment
+    @GET
+    @Produces("application/json")
+    @Path("/building/id/{id}")
+    public static List<CRoom> roomsByBuilding(@PathParam("id") final int pId) {
+        return (List<CRoom>) sCrudRoom.findWithNamedQuery(
+                CRoom.FIND_ROOMS_BY_BUILDING, QueryParameter.with("Pid", pId).parameters());
+    }
+
+    // retourne les pieces par id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static CRoom roomById(@PathParam("id") final int pId) {
+        return (CRoom) sCrudRoom.findWithNamedQuery(
+                CRoom.FIND_ROOM_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
+    }
 
     // retourne toutes les rooms
     @GET

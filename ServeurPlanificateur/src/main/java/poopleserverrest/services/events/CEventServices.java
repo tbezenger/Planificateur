@@ -1,8 +1,10 @@
 package poopleserverrest.services.events;
 
 import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Users.CGroup;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -25,6 +27,15 @@ public class CEventServices {
     //////// crud operations
 
 
+    // retourne les aevent par id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static AEvent eventById(@PathParam("id") final int pId) {
+        return (AEvent) sCrudEvents.findWithNamedQuery(
+                AEvent.AEVENT_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
+    }
+
     // retourne tout les utilisateurs
     @GET
     @Produces("application/json")
@@ -41,12 +52,12 @@ public class CEventServices {
         transac.commit();
     }
 
-    @POST
-    @Produces("application/json")
-    public void postEvent(AEvent pEvent) {
-        EntityTransaction transac = em.getTransaction();
-        transac.begin();
-        sCrudEvents.create(pEvent);
-        transac.commit();
-    }
+//    @POST
+//    @Produces("application/json")
+//    public void postEvent(AEvent pEvent) {
+//        EntityTransaction transac = em.getTransaction();
+//        transac.begin();
+//        sCrudEvents.create(pEvent);
+//        transac.commit();
+//    }
 }

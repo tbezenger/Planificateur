@@ -1,5 +1,6 @@
 package fr.univtln.projuml.clt.Places;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.CMeeting;
 
@@ -13,10 +14,16 @@ import java.util.List;
  */
 
 @Entity
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = CRoom.FIND_ROOM_BY_ALL, query =
-                "select room from CRoom room")
-)
+                "select room from CRoom room"),
+        @NamedQuery(name = CRoom.FIND_ROOM_BY_ID, query =
+                "select  room from CRoom room where room.id = :Pid"),
+        @NamedQuery(name = CRoom.FIND_ROOMS_BY_BUILDING, query =
+                "select room from CRoom room " +
+                        "where room.building.id = :Pid")
+})
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CRoom implements Serializable{
 
     @TableGenerator(name = "roomGenerator", allocationSize = 1, initialValue = 1)
@@ -35,6 +42,8 @@ public class CRoom implements Serializable{
     private List<CMeeting> roomEvents = new ArrayList<CMeeting>();
 
     public static final String FIND_ROOM_BY_ALL = "findRoomByAll";
+    public static final String FIND_ROOM_BY_ID = "findRoomById";
+    public static final String FIND_ROOMS_BY_BUILDING = "findRoomByBuilding";
 
 
     //////// builders ////////
@@ -89,5 +98,14 @@ public class CRoom implements Serializable{
     public CRoom setBuilding(CBuilding building) {
         this.building = building;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "CRoom{" +
+                "id=" + id +
+                ", number=" + number +
+                ", capacity=" + capacity +
+                '}';
     }
 }

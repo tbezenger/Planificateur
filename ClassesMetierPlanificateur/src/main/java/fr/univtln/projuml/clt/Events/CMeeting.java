@@ -14,21 +14,21 @@ import java.util.List;
  */
 
 @Entity
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = CMeeting.MEETING_BY_ALL, query =
-                "select meeting from CMeeting meeting")
-)
+                "select meeting from CMeeting meeting"),
+        @NamedQuery(name = CMeeting.FIND_MEETING_BY_ID, query =
+                "select meeting from CMeeting meeting where meeting.id = :Pid"),
+        @NamedQuery(name = CMeeting.FIND_MEETINGS_BY_USER, query =
+                "select meeting from CMeeting meeting " +
+                        "inner join meeting.meetingUsers meetuser " +
+                        "where meetuser.id = :Pid")
+})
 @DiscriminatorValue(value = "meeting")
 public class CMeeting extends AEvent {
 
     private Date date;
     private Time hour;
-
-    private List<CUser> meetingUsers = new ArrayList<CUser>();
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    public List<CUser> getUsersMeeting() {
-        return meetingUsers;
-    }
 
     private List<CRoom> meetingRooms = new ArrayList<CRoom>();
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
@@ -36,7 +36,15 @@ public class CMeeting extends AEvent {
         return meetingRooms;
     }
 
+    private List<CUser> meetingUsers = new ArrayList<CUser>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    public List<CUser> getUsersMeeting() {
+        return meetingUsers;
+    }
+
     public static final String MEETING_BY_ALL = "findMeetingAll";
+    public static final String FIND_MEETING_BY_ID = "findMeetingById";
+    public static final String FIND_MEETINGS_BY_USER = "findMeetingsByUser";
 
 
     //////// builders ////////
@@ -61,15 +69,15 @@ public class CMeeting extends AEvent {
     //////// methods ////////
 
 
+    public List<CUser> getUsers() { return meetingUsers; }
+
+    public void addUser(CUser pUser){ this.meetingUsers.add(pUser); }
+
+    public void removeUser(CUser pUser){ this.meetingUsers.remove(pUser); }
+
     public void addRoom(CRoom pRoom) { meetingRooms.add(pRoom); }
 
     public void removeRoom(CRoom pRoom) { meetingRooms.remove(pRoom); }
-
-    public List<CUser> getParticipants() { return meetingUsers; }
-
-    public void addParticipant(CUser pUser){ this.meetingUsers.add(pUser); }
-
-    public void subParticipant(CUser pUser){ this.meetingUsers.remove(pUser); }
 
     public Date getDate() {
         return date;
@@ -87,7 +95,11 @@ public class CMeeting extends AEvent {
         this.hour = hour;
     }
 
-//    public void addRoom(CRoom pRoom) { rooms.add(pRoom); }
-//
-//    public void removeRoom(CRoom pRoom) { rooms.remove(pRoom); }
+    @Override
+    public String toString() {
+        return "CMeeting{" +
+                "date=" + date +
+                ", hour=" + hour +
+                '}';
+    }
 }

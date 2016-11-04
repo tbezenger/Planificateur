@@ -4,6 +4,7 @@ import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.COption;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -26,7 +27,25 @@ public class COptionServices {
     //////// crud operations
 
 
-    // retourne tout les utilisateurs
+    // retourne les options par id de sondage
+    @GET
+    @Produces("application/json")
+    @Path("/survey/id/{id}")
+    public static List<COption> getOptionsBySUrvey(@PathParam("id") final int pId) {
+        return (List<COption>) sCrudOptions.findWithNamedQuery(COption.FIND_OPTIONS_BY_SURVEY,
+                QueryParameter.with("Pid", pId).parameters());
+    }
+
+    // retourne les options par id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static COption optionById(@PathParam("id") final int pId) {
+        return (COption) sCrudOptions.findWithNamedQuery(
+                COption.FIND_OPTION_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
+    }
+
+    // retourne tout les option
     @GET
     @Produces("application/json")
     public static List<COption> optionAll() {

@@ -4,6 +4,7 @@ import fr.univtln.projuml.clt.Users.CGroup;
 import fr.univtln.projuml.clt.Users.CUser;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -25,6 +26,15 @@ public class CGroupServices {
 
     //////// crud operations
 
+
+    // retourne les groupes par id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static CGroup groupById(@PathParam("id") final int pId) {
+        return (CGroup) sCrudGroup.findWithNamedQuery(
+                CGroup.FIND_GROUP_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
+    }
 
     // retourne tout les groupes
     @GET

@@ -1,9 +1,11 @@
 package poopleserverrest.services.places;
 
+import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Places.CBuilding;
 import fr.univtln.projuml.clt.Users.CGroup;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -25,6 +27,15 @@ public class CBuildingServices {
 
     //////// crud operations
 
+
+    // retourne les batiments par id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static CBuilding buildingById(@PathParam("id") final int pId) {
+        return (CBuilding) sCrudBuilding.findWithNamedQuery(
+                CBuilding.FIND_BUILDING_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
+    }
 
     // retourne tout les groupes
     @GET

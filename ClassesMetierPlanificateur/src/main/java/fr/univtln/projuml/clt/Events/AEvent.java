@@ -1,6 +1,7 @@
 package fr.univtln.projuml.clt.Events;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.univtln.projuml.clt.Users.CUser;
@@ -11,6 +12,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by tomy- on 18/10/2016.
@@ -18,14 +20,17 @@ import java.util.Collection;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQueries(
+@NamedQueries({
         @NamedQuery(name = AEvent.AEVENT_BY_ALL, query =
-                "select event from AEvent event")
-)
+                "select event from AEvent event"),
+        @NamedQuery(name = AEvent.AEVENT_BY_ID, query =
+                "select event from AEvent event where event.id = :Pid")
+})
 @DiscriminatorColumn(name = "event_type ")
 @MappedSuperclass
 @JsonTypeInfo(use=JsonTypeInfo.Id.CLASS, include= JsonTypeInfo.As.PROPERTY, property="@class")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = AEvent.class)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AEvent implements Serializable {
 
     @TableGenerator(name = "eventGenerator",allocationSize = 1, initialValue = 1)
@@ -44,6 +49,7 @@ public abstract class AEvent implements Serializable {
     private CUser creator;
 
     public static final String AEVENT_BY_ALL = "eventByAll";
+    public static final String AEVENT_BY_ID = "findEventById";
 
 
     //////// builders ////////

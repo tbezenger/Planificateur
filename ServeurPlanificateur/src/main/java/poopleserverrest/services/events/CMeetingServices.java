@@ -4,6 +4,7 @@ import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.CMeeting;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
+import poopleserverrest.dao.QueryParameter;
 
 import javax.persistence.EntityTransaction;
 import javax.ws.rs.*;
@@ -25,6 +26,24 @@ public class CMeetingServices {
 
     //////// crud operations
 
+
+    // retourne les meetings par id d'utilisateur
+    @GET
+    @Produces("application/json")
+    @Path("/user/id/{id}")
+    public static List<CMeeting> meetingsByUser(@PathParam("id") final int pId) {
+        return (List<CMeeting>) sCrudMeetings.findWithNamedQuery(
+                CMeeting.FIND_MEETINGS_BY_USER, QueryParameter.with("Pid", pId).parameters());
+    }
+
+    // retourne les meetings par id
+    @GET
+    @Produces("application/json")
+    @Path("/id/{id}")
+    public static CMeeting eventById(@PathParam("id") final int pId) {
+        return (CMeeting) sCrudMeetings.findWithNamedQuery(
+                CMeeting.FIND_MEETING_BY_ID, QueryParameter.with("Pid", pId).parameters()).get(0);
+    }
 
     // retourne tout les utilisateurs
     @GET

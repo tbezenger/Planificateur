@@ -19,7 +19,11 @@ import java.util.*;
         @NamedQuery(name = CUser.FIND_USER_ALL, query =
                 "select user from CUser user"),
         @NamedQuery(name = CUser.FIND_USER_BY_ID, query =
-                "select user from CUser user where user.id = :Pid")
+                "select user from CUser user where user.id = :Pid"),
+        @NamedQuery(name = CUser.FIND_USERS_BY_GROUP, query =
+                "select user from CUser user " +
+                        "inner join user.groups grp " +
+                        "where grp.id = :Pid")
 })
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, scope = CUser.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -49,6 +53,7 @@ public class CUser implements Serializable{
 
     public static final String FIND_USER_ALL = "findUserByAll";
     public static final String FIND_USER_BY_ID = "findUserById";
+    public static final String FIND_USERS_BY_GROUP = "findUserByGroup";
 
 
     //////// builders ////////
@@ -126,5 +131,16 @@ public class CUser implements Serializable{
 
     public boolean isGuest(){
         return mail == null;
+    }
+
+    @Override
+    public String toString() {
+        return "CUser{" +
+                "id=" + id +
+                ", mail='" + mail + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", password=" + password +
+                '}';
     }
 }

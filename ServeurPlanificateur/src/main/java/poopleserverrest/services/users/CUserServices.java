@@ -1,5 +1,6 @@
 package poopleserverrest.services.users;
 
+import fr.univtln.projuml.clt.Users.CGroup;
 import fr.univtln.projuml.clt.Users.CUser;
 import poopleserverrest.dao.CCrudServiceBean;
 import poopleserverrest.dao.ICrudService;
@@ -25,6 +26,15 @@ public class CUserServices {
 
     //////// crud operations
 
+
+    // retourne les utilisateurs par id de groupe
+    @GET
+    @Produces("application/json")
+    @Path("/group/id/{id}")
+    public static List<CUser> userByGroup(@PathParam("id") final int pId) {
+        return (List<CUser>) sCrudUser.findWithNamedQuery(
+                CUser.FIND_USERS_BY_GROUP, QueryParameter.with("Pid", pId).parameters());
+    }
 
     // retourne tout les utilisateurs
     @GET
