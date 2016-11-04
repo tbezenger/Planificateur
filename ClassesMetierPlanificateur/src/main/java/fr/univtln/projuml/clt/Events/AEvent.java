@@ -38,6 +38,7 @@ public abstract class AEvent implements Serializable {
     @GeneratedValue(strategy= GenerationType.TABLE, generator="eventGenerator")
     @Column(name="event_id")
     private int id;
+    @Column(unique = true)
     private String title;
     private boolean isPrivate = false;
     private Date creationDate;

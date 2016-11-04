@@ -17,12 +17,16 @@ import java.util.List;
                 "select survey from CSurvey survey"),
         @NamedQuery(name = CSurvey.FIND_SURVEY_BY_ID, query =
                 "select survey from CSurvey survey where survey.id = :Pid"),
+        @NamedQuery(name = CSurvey.FIND_SURVEY_BY_TITLE, query =
+                "select survey from CSurvey survey " +
+                        "where survey.title = :Ptitle")
 })
 @DiscriminatorValue(value = "survey")
 public class CSurvey extends AEvent {
 
     public static final String SURVEY_BY_ALL = "surveyAll";
     public static final String FIND_SURVEY_BY_ID = "findSurveyById";
+    public static final String FIND_SURVEY_BY_TITLE = "findSurveyByTitle";
 
 
     //////// builders ////////

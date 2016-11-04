@@ -17,10 +17,6 @@ import fr.univtln.projuml.clt.Users.CGroup;
 import fr.univtln.projuml.clt.Users.CUser;
 
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,13 +108,18 @@ public class CServerTestQuery {
         COption o1 = new COption("Avec sucre ?").setId(1);
         COption o2 = new COption("Plutot sans sucre ?").setId(2);
 
-        CSurvey s = new CSurvey();
-        s.setId(3);
-        s.setTitle("Comment préférez vous le café ?");
-        s.setCreator(u2);
+        CSurvey s1 = new CSurvey();
+        s1.setId(3);
+        s1.setTitle("Comment préférez vous le café ?");
+        s1.setCreator(u2);
 
-        o1.setSurvey(s);
-        o2.setSurvey(s);
+        CSurvey s2 = new CSurvey();
+        s2.setId(4);
+        s2.setTitle("plutot viande ou legumes ?");
+        s1.setCreator(u3);
+
+        o1.setSurvey(s1);
+        o2.setSurvey(s1);
 
         u1.addOption(o1);
         u2.addOption(o2);
@@ -126,7 +127,8 @@ public class CServerTestQuery {
         webResource.path("meetings").type(MediaType.APPLICATION_JSON).post(m1);
         webResource.path("meetings").type(MediaType.APPLICATION_JSON).post(m2);
 
-        webResource.path("surveys").type(MediaType.APPLICATION_JSON).post(s);
+        webResource.path("surveys").type(MediaType.APPLICATION_JSON).post(s1);
+        webResource.path("surveys").type(MediaType.APPLICATION_JSON).post(s2);
 
         webResource.path("options").type(MediaType.APPLICATION_JSON).post(o1);
         webResource.path("options").type(MediaType.APPLICATION_JSON).post(o2);
@@ -134,8 +136,8 @@ public class CServerTestQuery {
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u1);
 //        webResource.path("users").type(MediaType.APPLICATION_JSON).post(u2);
 
-//        ObjectMapper om = new ObjectMapper();
-//
+        ObjectMapper om = new ObjectMapper();
+
 //        String u = webResource.path("users/id/1").type(MediaType.APPLICATION_JSON).get(String.class);
 //
 //        CUser us;
@@ -150,5 +152,11 @@ public class CServerTestQuery {
 //                webResource.path("users").type(MediaType.APPLICATION_JSON).get(new GenericType<List<CUser>>(){});
 //        for (CUser cu : users)
 //            System.out.println(cu.toString());
+
+        List<CSurvey> surveys =
+                webResource.path("surveys").type(MediaType.APPLICATION_JSON).get(new GenericType<List<CSurvey>>(){});
+
+        for (CSurvey surv : surveys)
+            System.out.println(surv);
     }
 }

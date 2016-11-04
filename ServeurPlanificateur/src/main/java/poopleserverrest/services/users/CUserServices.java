@@ -27,6 +27,15 @@ public class CUserServices {
     //////// crud operations
 
 
+    // retourne un utilisateur par mail
+    @GET
+    @Produces("application/json")
+    @Path("/mail/{mail}")
+    public static CUser userByMail(@PathParam("mail") final String pMail) {
+        return (CUser) sCrudUser.findWithNamedQuery(CUser.FIND_USER_BY_MAIL,
+                QueryParameter.with("Pmail", pMail).parameters()).get(0);
+    }
+
     // retourne les utilisateurs par id de groupe
     @GET
     @Produces("application/json")
