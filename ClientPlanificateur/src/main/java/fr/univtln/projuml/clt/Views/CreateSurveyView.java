@@ -190,8 +190,12 @@ public class CreateSurveyView {
         validate.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 List<String> textAnswers = new ArrayList<String>();
-                for (int i = 0; i < answersBox.getChildren().size(); i++)
-                    textAnswers.add((((TextField)((HBox)answersBox.getChildren().get(i)).getChildren().get(1)).getText()));
+                int boxSize = answersBox.getChildren().size();
+                for(int i = 0; i < boxSize; i++) {
+                    String answer;
+                    answer = ((TextField)((HBox)answersBox.getChildren().get(i)).getChildren().get(1)).getText();
+                    textAnswers.add(answer);
+                }
                 controller.createSurvey(askAQuestionField.getText(), makePrivate.isSelected(), textAnswers);
             }
         });
