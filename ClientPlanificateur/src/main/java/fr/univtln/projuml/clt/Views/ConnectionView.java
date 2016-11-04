@@ -20,6 +20,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+
 public class ConnectionView {
 
     private Stage stage;
@@ -38,7 +39,6 @@ public class ConnectionView {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         this.stage.setScene(scene);
-
 
         Text leftTitle = new Text("Compte existant");
         leftTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
