@@ -3,11 +3,13 @@ package fr.univtln.projuml.clt.Views;
 import fr.univtln.projuml.clt.AppConstants;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -51,6 +53,7 @@ public class CreateMeetingView {
     private CheckBox makePrivate;
 
     private Button validate;
+    private Button clear;
     private Button goBack;
 
     /*
@@ -68,6 +71,9 @@ public class CreateMeetingView {
     private final String TIME = "Heure:";
     private final String MAKE_PRIVATE = "définir comme privé";
 
+    private final double FIELDS_BOX_SPACING = 15;
+    private final double FULL_BOX_SPACING = 30;
+    private final double DATE_TIME_SPACING = 60;
 
     /*
      * Methods
@@ -91,9 +97,67 @@ public class CreateMeetingView {
 
     private void initializeMainPane() {
         mainPane = new VBox();
-        mainPane.getChildren().addAll(logo, title, meetingTitle, meetingTitleField, pickALocation, address, addressField,
-                building, buildingField, roomNumber, roomNumberField, pickADate, date, dateField, time, timeField,
-                makePrivate, validate, goBack);
+        mainPane.setAlignment(Pos.TOP_CENTER);
+        mainPane.setSpacing(AppConstants.GENERAL_SPACING);
+
+        HBox meetingTitleBox = new HBox();
+        meetingTitleBox.setAlignment(Pos.CENTER);
+        meetingTitleBox.getChildren().addAll(meetingTitle, meetingTitleField);
+
+
+        //Pick a location
+        HBox addressBox = new HBox();
+        addressBox.setAlignment(Pos.CENTER_RIGHT);
+        addressBox.getChildren().addAll(address, addressField);
+
+        HBox buildingBox = new HBox();
+        buildingBox.setAlignment(Pos.CENTER_RIGHT);
+        buildingBox.getChildren().addAll(building, buildingField);
+
+        HBox roomNumberBox = new HBox();
+        roomNumberBox.setAlignment(Pos.CENTER_RIGHT);
+        roomNumberBox.getChildren().addAll(roomNumber, roomNumberField);
+
+        VBox pickALocationFieldsBox = new VBox();
+        pickALocationFieldsBox.setAlignment(Pos.TOP_RIGHT);
+        pickALocationFieldsBox.setSpacing(FIELDS_BOX_SPACING);
+        pickALocationFieldsBox.getChildren().addAll(addressBox, buildingBox, roomNumberBox);
+
+        VBox pickALocationFullBox = new VBox();
+        pickALocationFullBox.setAlignment(Pos.TOP_CENTER);
+        pickALocationFullBox.setSpacing(FULL_BOX_SPACING);
+        pickALocationFullBox.getChildren().addAll(pickALocation, pickALocationFieldsBox);
+
+
+        //Pick a date
+        HBox dateBox = new HBox();
+        dateBox.setAlignment(Pos.CENTER_RIGHT);
+        dateBox.getChildren().addAll(date, dateField);
+
+        HBox timeBox = new HBox();
+        timeBox.setAlignment(Pos.CENTER_RIGHT);
+        timeBox.getChildren().addAll(time, timeField);
+
+        VBox pickADateFieldsBox = new VBox();
+        pickADateFieldsBox.setAlignment(Pos.TOP_RIGHT);
+        pickADateFieldsBox.setSpacing(FIELDS_BOX_SPACING);
+        pickADateFieldsBox.getChildren().addAll(dateBox, timeBox, makePrivate);
+
+        VBox pickADateFullBox = new VBox();
+        pickADateFullBox.setAlignment(Pos.TOP_CENTER);
+        pickADateFullBox.setSpacing(FULL_BOX_SPACING);
+        pickADateFullBox.getChildren().addAll(pickADate, pickADateFieldsBox);
+
+        HBox dateTimeBox = new HBox();
+        dateTimeBox.setAlignment(Pos.TOP_CENTER);
+        dateTimeBox.setSpacing(DATE_TIME_SPACING);
+        dateTimeBox.getChildren().addAll(pickALocationFullBox, pickADateFullBox);
+
+        HBox okCancel = new HBox();
+        okCancel.setAlignment(Pos.CENTER);
+        okCancel.getChildren().addAll(validate, clear, goBack);
+
+        mainPane.getChildren().addAll(logo, title, meetingTitleBox, dateTimeBox, okCancel);
     }
 
 
@@ -122,11 +186,24 @@ public class CreateMeetingView {
         makePrivate = new CheckBox(MAKE_PRIVATE);
 
         validate = new Button(AppConstants.VALIDATE);
+        clear = new Button(AppConstants.CLEAR_VALUES);
         goBack = new Button(AppConstants.GO_BACK);
     }
 
 
     private void setListeners() {
+        clear.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                meetingTitleField.clear();
+                addressField.clear();
+                buildingField.clear();
+                roomNumberField.clear();
+                dateField.clear();
+                timeField.clear();
+                makePrivate.setSelected(false);
+            }
+        });
+
         goBack.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 appStage.setScene(previousScene);

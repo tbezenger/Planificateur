@@ -3,6 +3,7 @@ package fr.univtln.projuml.clt.Views;
 import fr.univtln.projuml.clt.AppConstants;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -35,7 +36,7 @@ public class CreateSurveyView {
     private Text title;
 
     private Text askAQuestion;
-    private TextField questionField;
+    private TextField askAQuestionField;
 
     private CheckBox makePrivate;
 
@@ -48,6 +49,7 @@ public class CreateSurveyView {
     private Button addAnswer;
     private Button deleteAnswer;
     private Button validate;
+    private Button clear;
     private Button goBack;
 
 
@@ -61,6 +63,9 @@ public class CreateSurveyView {
     private final String ANSWER = "Choix";
     private final String ADD_ANSWER = "Ajouter une Réponse";
     private final String DELETE_ANSWER = "Supprimer une Réponse";
+
+    private final double ANSWERS_SPACING = 5;
+    private final double SCROLLPANE_MARGIN = 10;
 
 
     /*
@@ -86,16 +91,20 @@ public class CreateSurveyView {
 
     private void initializeMainPane() {
         mainPane = new VBox();
+        mainPane.setSpacing(AppConstants.GENERAL_SPACING);
+        mainPane.setAlignment(Pos.TOP_CENTER);
 
         HBox askQuestionBox = new HBox();
         askQuestionBox.setAlignment(Pos.CENTER);
-        askQuestionBox.getChildren().addAll(askAQuestion, questionField);
+        askQuestionBox.getChildren().addAll(askAQuestion, askAQuestionField);
 
         answersBox = new VBox();
         answersBox.setAlignment(Pos.TOP_CENTER);
+        answersBox.setSpacing(ANSWERS_SPACING);
 
         ScrollPane scrollableAnswers = new ScrollPane(answersBox);
         scrollableAnswers.setFitToWidth(true);
+        scrollableAnswers.setPadding(new Insets(SCROLLPANE_MARGIN, 0, 0, SCROLLPANE_MARGIN));
 
         HBox firstAnswerBox = new HBox();
         firstAnswerBox.setAlignment(Pos.CENTER);
@@ -108,9 +117,17 @@ public class CreateSurveyView {
         answersBox.getChildren().addAll(firstAnswerBox, secondAnswerBox);
 
 
-        mainPane.getChildren().addAll(logo, title, askQuestionBox, makePrivate,
-                scrollableAnswers, addAnswer, deleteAnswer, validate, goBack);
-        mainPane.setAlignment(Pos.TOP_CENTER);
+        HBox addDeleteAnswerBox = new HBox();
+        addDeleteAnswerBox.setAlignment(Pos.CENTER);
+        addDeleteAnswerBox.getChildren().addAll(addAnswer, deleteAnswer);
+
+        HBox okCancelBox = new HBox();
+        okCancelBox.setAlignment(Pos.CENTER);
+        okCancelBox.getChildren().addAll(validate, clear, goBack);
+
+
+        mainPane.getChildren().addAll(logo, title, askQuestionBox, makePrivate, scrollableAnswers, addDeleteAnswerBox,
+                okCancelBox);
     }
 
 
@@ -120,7 +137,7 @@ public class CreateSurveyView {
         title.setFont(new Font(AppConstants.TITLES_FONT));
 
         askAQuestion = new Text(ASK_A_QUESTION);
-        questionField = new TextField();
+        askAQuestionField = new TextField();
 
         makePrivate = new CheckBox(MAKE_PRIVATE);
 
@@ -132,6 +149,7 @@ public class CreateSurveyView {
         addAnswer = new Button(ADD_ANSWER);
         deleteAnswer = new Button(DELETE_ANSWER);
         validate = new Button(AppConstants.VALIDATE);
+        clear = new Button(AppConstants.CLEAR_VALUES);
         goBack = new Button(AppConstants.GO_BACK);
     }
 
@@ -161,6 +179,21 @@ public class CreateSurveyView {
             }
         });
 
+
+        clear.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                askAQuestionField.clear();
+                makePrivate.setSelected(false);
+                firstAnswerField.clear();
+                secondAnswerField.clear();
+
+                int answersAmount = answersBox.getChildren().size();
+                while (answersAmount > 2) {
+                    answersBox.getChildren().remove(answersAmount - 1);
+                    answersAmount--;
+                }
+            }
+        });
 
         goBack.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
