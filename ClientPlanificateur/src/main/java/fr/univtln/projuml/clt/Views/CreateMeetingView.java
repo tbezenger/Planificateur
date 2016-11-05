@@ -106,20 +106,24 @@ public class CreateMeetingView {
 
         HBox meetingTitleBox = new HBox();
         meetingTitleBox.setAlignment(Pos.CENTER);
+        meetingTitleBox.setSpacing(AppConstants.SMALL_SPACING);
         meetingTitleBox.getChildren().addAll(meetingTitle, meetingTitleField);
 
 
         //Pick a location
         HBox addressBox = new HBox();
         addressBox.setAlignment(Pos.CENTER_RIGHT);
+        addressBox.setSpacing(AppConstants.SMALL_SPACING);
         addressBox.getChildren().addAll(address, addressField);
 
         HBox buildingBox = new HBox();
         buildingBox.setAlignment(Pos.CENTER_RIGHT);
+        buildingBox.setSpacing(AppConstants.SMALL_SPACING);
         buildingBox.getChildren().addAll(building, buildingField);
 
         HBox roomNumberBox = new HBox();
         roomNumberBox.setAlignment(Pos.CENTER_RIGHT);
+        roomNumberBox.setSpacing(AppConstants.SMALL_SPACING);
         roomNumberBox.getChildren().addAll(roomNumber, roomNumberField);
 
         VBox pickALocationFieldsBox = new VBox();
@@ -136,10 +140,12 @@ public class CreateMeetingView {
         //Pick a date
         HBox dateBox = new HBox();
         dateBox.setAlignment(Pos.CENTER_RIGHT);
+        dateBox.setSpacing(AppConstants.SMALL_SPACING);
         dateBox.getChildren().addAll(date, dateField);
 
         HBox timeBox = new HBox();
         timeBox.setAlignment(Pos.CENTER_RIGHT);
+        timeBox.setSpacing(AppConstants.SMALL_SPACING);
         timeBox.getChildren().addAll(time, timeField);
 
         VBox pickADateFieldsBox = new VBox();
@@ -159,6 +165,7 @@ public class CreateMeetingView {
 
         HBox okCancel = new HBox();
         okCancel.setAlignment(Pos.CENTER);
+        okCancel.setSpacing(AppConstants.SMALL_SPACING);
         okCancel.getChildren().addAll(validate, clear, goBack);
 
         mainPane.getChildren().addAll(logo, title, meetingTitleBox, dateTimeBox, okCancel);

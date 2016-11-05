@@ -51,6 +51,7 @@ public class MainMenuModel extends Observable {
     }
 
 
+
     public void setEvents(List<AEvent> pEvents) {
         this.events = pEvents;
         setChanged();
@@ -59,7 +60,8 @@ public class MainMenuModel extends Observable {
 
 
     public void getAllEvents() {
-        setEvents(AppConstants.webResource.path("surveys").type(MediaType.APPLICATION_JSON).get(new GenericType<List<AEvent>>(){}));
+        setEvents(AppConstants.webResource.path("surveys").type(MediaType.APPLICATION_JSON).get(new GenericType<List<AEvent>>() {
+        }));
         events.addAll(AppConstants.webResource.path("meetings").type(MediaType.APPLICATION_JSON).get(new GenericType<Collection<? extends AEvent>>(){}));
         setChanged();
         notifyObservers();

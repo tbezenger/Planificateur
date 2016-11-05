@@ -25,7 +25,8 @@ public abstract class AppConstants {
     public static final double WINDOW_WIDTH = 750d;
     public static final double WINDOW_HEIGHT = 550d;
 
-    public static final double GENERAL_SPACING = 15;
+    public static final double GENERAL_SPACING = 20;
+    public static final double SMALL_SPACING = 10;
 
     public static final int TITLES_FONT = 25;
 

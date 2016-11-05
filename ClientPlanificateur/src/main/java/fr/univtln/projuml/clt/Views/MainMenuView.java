@@ -3,6 +3,7 @@ package fr.univtln.projuml.clt.Views;
 import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
+import fr.univtln.projuml.clt.Events.CMeeting;
 import fr.univtln.projuml.clt.Events.CSurvey;
 import fr.univtln.projuml.clt.Models.ConnectionModel;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
@@ -37,13 +38,14 @@ import java.util.Observer;
  */
 public class MainMenuView implements Observer {
 
-    MainMenuController controller;
+    private MainMenuController controller;
 
     private ObservableList<AEvent> eventList = FXCollections.observableArrayList();
 
     private CreateSurveyView createSurveyView;
     private CreateMeetingView createMeetingView;
     private AnswerSurveyView answerSurveyView;
+    private AnswerMeetingView answerMeetingView;
 
 
     /*
@@ -272,6 +274,9 @@ public class MainMenuView implements Observer {
                 if (events.getSelectionModel().getSelectedItem() instanceof CSurvey) {
                     controller.openSurvey(answerSurveyView, primaryStage, primaryScene, (CSurvey) events.getSelectionModel().getSelectedItem());
                 }
+                else {
+                    controller.openMeeting(answerMeetingView, primaryStage, primaryScene, (CMeeting) events.getSelectionModel().getSelectedItem());
+                }
             }
         });
     }
@@ -311,13 +316,16 @@ public class MainMenuView implements Observer {
         return answerSurveyView;
     }
 
+    public AnswerMeetingView getAnswerMeetingView() {
+        return answerMeetingView;
+    }
+
 
     public void setAnswerSurveyView(AnswerSurveyView newView) {
         answerSurveyView = newView;
     }
 
-
-    public Scene getScene() {
-        return primaryScene;
+    public void setAnswerMeetingView(AnswerMeetingView newView) {
+        answerMeetingView = newView;
     }
 }

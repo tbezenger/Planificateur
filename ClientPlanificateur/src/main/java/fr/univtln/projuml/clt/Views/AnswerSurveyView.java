@@ -77,12 +77,19 @@ public class AnswerSurveyView implements Observer{
     private void initializeMainPane() {
         mainPane = new VBox();
         mainPane.setAlignment(Pos.TOP_CENTER);
+        mainPane.setSpacing(AppConstants.GENERAL_SPACING);
 
         HBox nameBox = new HBox();
         nameBox.setAlignment(Pos.CENTER);
+        nameBox.setSpacing(AppConstants.SMALL_SPACING);
         nameBox.getChildren().addAll(name, nameField);
 
-        mainPane.getChildren().addAll(logo, surveyQuestion, nameBox, answers, validate, goBack);
+        HBox buttonsBox = new HBox();
+        buttonsBox.setAlignment(Pos.CENTER);
+        buttonsBox.setSpacing(AppConstants.SMALL_SPACING);
+        buttonsBox.getChildren().addAll(validate, goBack);
+
+        mainPane.getChildren().addAll(logo, surveyQuestion, nameBox, answers, buttonsBox);
     }
 
 
@@ -97,6 +104,7 @@ public class AnswerSurveyView implements Observer{
 
         answers = new VBox();
         answers.setAlignment(Pos.CENTER);
+        answers.setSpacing(AppConstants.SMALL_SPACING);
         validate = new Button(AppConstants.VALIDATE);
         goBack = new Button(AppConstants.GO_BACK);
     }

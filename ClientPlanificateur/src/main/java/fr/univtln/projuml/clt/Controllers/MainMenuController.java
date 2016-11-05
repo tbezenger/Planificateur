@@ -1,9 +1,12 @@
 package fr.univtln.projuml.clt.Controllers;
 
+import fr.univtln.projuml.clt.Events.CMeeting;
 import fr.univtln.projuml.clt.Events.CSurvey;
+import fr.univtln.projuml.clt.Models.AnswerMeetingModel;
 import fr.univtln.projuml.clt.Models.AnswerSurveyModel;
 import fr.univtln.projuml.clt.Models.ConnectionModel;
 import fr.univtln.projuml.clt.Models.MainMenuModel;
+import fr.univtln.projuml.clt.Views.AnswerMeetingView;
 import fr.univtln.projuml.clt.Views.AnswerSurveyView;
 import fr.univtln.projuml.clt.Views.ConnectionView;
 import fr.univtln.projuml.clt.Views.MainMenuView;
@@ -39,6 +42,16 @@ public class MainMenuController {
         AnswerSurveyModel.getInstance().setSurvey(pSurvey);
         appStage.setScene(view.getAnswerSurveyView().getScene());
     }
+
+
+    public void openMeeting(AnswerMeetingView newView, Stage appStage, Scene mainMenuScene, CMeeting pMeeting) {
+        if (newView == null)
+            view.setAnswerMeetingView(new AnswerMeetingView(appStage, mainMenuScene));
+        AnswerMeetingModel.getInstance().addObserver(view.getAnswerMeetingView());
+        AnswerMeetingModel.getInstance().setMeeting(pMeeting);
+        appStage.setScene(view.getAnswerMeetingView().getScene());
+    }
+
 
     public void getAllEvents() {
         model.getAllEvents();

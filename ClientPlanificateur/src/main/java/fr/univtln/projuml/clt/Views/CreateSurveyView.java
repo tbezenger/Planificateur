@@ -103,6 +103,7 @@ public class CreateSurveyView {
 
         HBox askQuestionBox = new HBox();
         askQuestionBox.setAlignment(Pos.CENTER);
+        askQuestionBox.setSpacing(AppConstants.SMALL_SPACING);
         askQuestionBox.getChildren().addAll(askAQuestion, askAQuestionField);
 
         answersBox = new VBox();
@@ -115,10 +116,12 @@ public class CreateSurveyView {
 
         HBox firstAnswerBox = new HBox();
         firstAnswerBox.setAlignment(Pos.CENTER);
+        firstAnswerBox.setSpacing(AppConstants.SMALL_SPACING);
         firstAnswerBox.getChildren().addAll(firstAnswer, firstAnswerField);
 
         HBox secondAnswerBox = new HBox();
         secondAnswerBox.setAlignment(Pos.CENTER);
+        secondAnswerBox.setSpacing(AppConstants.SMALL_SPACING);
         secondAnswerBox.getChildren().addAll(secondAnswer, secondAnswerField);
 
         answersBox.getChildren().addAll(firstAnswerBox, secondAnswerBox);
@@ -126,10 +129,12 @@ public class CreateSurveyView {
 
         HBox addDeleteAnswerBox = new HBox();
         addDeleteAnswerBox.setAlignment(Pos.CENTER);
+        addDeleteAnswerBox.setSpacing(AppConstants.SMALL_SPACING);
         addDeleteAnswerBox.getChildren().addAll(addAnswer, deleteAnswer);
 
         HBox okCancelBox = new HBox();
         okCancelBox.setAlignment(Pos.CENTER);
+        okCancelBox.setSpacing(AppConstants.SMALL_SPACING);
         okCancelBox.getChildren().addAll(validate, clear, goBack);
 
 
