@@ -34,7 +34,11 @@ public class ConnectionModel extends Observable {
 
     public boolean createAccount(String mail, String pw){
         CUser newUser = new CUser(mail, hash(pw));
-        webResource.path("users").type(MediaType.APPLICATION_JSON).post(newUser);
+        try {
+            webResource.path("users").type(MediaType.APPLICATION_JSON).post(newUser);
+        }catch (Exception e){
+            return false;
+        }
         currentUser = newUser;
         setChanged();
         notifyObservers();
@@ -44,8 +48,13 @@ public class ConnectionModel extends Observable {
     public boolean userConnection(String mail, String pw){
         ObjectMapper om = new ObjectMapper();
         try {
+            CUser user;
             String u = webResource.path("users/mail/"+mail).type(MediaType.APPLICATION_JSON).get(String.class);
-            currentUser = om.readValue(u, CUser.class);
+            user = om.readValue(u, CUser.class);
+            if (user.getPassword() == hash(pw))
+                currentUser = user;
+            else
+                return false;
             setChanged();
             notifyObservers();
         } catch (Exception e){

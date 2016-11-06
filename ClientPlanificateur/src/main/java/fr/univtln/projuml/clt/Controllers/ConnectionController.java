@@ -18,8 +18,11 @@ public class ConnectionController {
             connectionView.setErreurCreationCompteText("adresse mail invalide");
 
         else {
-            connectionModel.createAccount(mail, pw);
-            connectionView.getStage().close();
+            if (connectionModel.createAccount(mail, pw))
+                connectionView.getStage().close();
+            else{
+                connectionView.setErreurCreationCompteText("adresse mail déjà utilisée");
+            }
         }
     }
 
