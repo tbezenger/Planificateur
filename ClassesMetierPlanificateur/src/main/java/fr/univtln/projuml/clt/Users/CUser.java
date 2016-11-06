@@ -37,6 +37,7 @@ public class CUser implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "userGenerator")
     @Column(name = "user_id")
     private int id;
+    @Column(unique = true)
     private String mail;
     private String firstName;
     private String lastName;

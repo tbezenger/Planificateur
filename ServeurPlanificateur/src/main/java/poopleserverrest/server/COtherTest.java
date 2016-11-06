@@ -22,8 +22,8 @@ public class COtherTest {
         ClientConfig cc = new DefaultClientConfig();
         cc.getClasses().add(JacksonJsonProvider.class);
         Client c = Client.create(cc);
-//        WebResource webResource = c.resource("http://localhost:9999/");
-        WebResource webResource = c.resource("http://176.157.85.69:9999/");
+        WebResource webResource = c.resource("http://localhost:9999/");
+//        WebResource webResource = c.resource("http://176.157.85.69:9999/");
 
 
         ObjectMapper om = new ObjectMapper();
@@ -38,7 +38,7 @@ public class COtherTest {
 //            e.printStackTrace();
 //        }
 
-        String surv = webResource.path("surveys/title/Bonjour").type(MediaType.APPLICATION_JSON).get(String.class);
+        String surv = webResource.path("surveys/title/prêtre%20pédophile!").type(MediaType.APPLICATION_JSON).get(String.class);
 
         CSurvey survey;
         try {

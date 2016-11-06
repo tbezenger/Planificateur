@@ -236,6 +236,7 @@ public class MainMenuView implements Observer {
         startSurvey.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (createSurveyView == null)
+
                     createSurveyView = new CreateSurveyView(primaryStage, primaryScene);
                 primaryStage.setScene(createSurveyView.getScene());
             }
