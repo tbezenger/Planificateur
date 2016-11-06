@@ -51,7 +51,6 @@ public class ConnectionModel extends Observable {
         } catch (Exception e){
             return false;
         }
-        System.out.println(currentUser);
         return true;
     }
 
