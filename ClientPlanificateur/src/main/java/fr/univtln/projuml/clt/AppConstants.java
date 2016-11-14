@@ -19,7 +19,8 @@ public abstract class AppConstants {
         ClientConfig cc = new DefaultClientConfig();
         cc.getClasses().add(JacksonJsonProvider.class);
         Client c = Client.create(cc);
-        webResource = c.resource("http://176.157.85.69:9999");
+//        webResource = c.resource("http://176.157.85.69:9999");
+        webResource = c.resource("http://localhost:9999");
     }
 
     public static final double WINDOW_WIDTH = 750d;
@@ -38,5 +39,7 @@ public abstract class AppConstants {
 
     public static final String LOG_IN = "Se Connecter / S'inscrire";
     public static final String LOG_OUT = "Se Déconnecter";
+
+    public static final String SURVEY_VALIDATION = "Le sondage a bien été créé, actualisez pour l'afficher !";
 
 }

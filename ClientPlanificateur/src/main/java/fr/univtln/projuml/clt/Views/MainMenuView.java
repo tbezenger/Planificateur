@@ -1,6 +1,7 @@
 package fr.univtln.projuml.clt.Views;
 
 import fr.univtln.projuml.clt.AppConstants;
+import fr.univtln.projuml.clt.CProperties;
 import fr.univtln.projuml.clt.Controllers.MainMenuController;
 import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Events.CMeeting;
@@ -18,10 +19,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -32,6 +30,8 @@ import javafx.stage.Stage;
 
 import java.util.Observable;
 import java.util.Observer;
+
+import static java.util.Objects.hash;
 
 /**
  * Created by imnotfood on 01/11/16.
@@ -46,6 +46,8 @@ public class MainMenuView implements Observer {
     private CreateMeetingView createMeetingView;
     private AnswerSurveyView answerSurveyView;
     private AnswerMeetingView answerMeetingView;
+    private MyAccountView myAccountView;
+    private MyEventsView myEventsView;
 
 
     /*
@@ -54,10 +56,10 @@ public class MainMenuView implements Observer {
 
     private ImageView logo;
 
-    private Button startSurvey, startMeeting;
+    private Button startSurvey, startMeeting, searchButton;
 
     private Button logIn, myEvents, myAccount, logOut;
-    private Text loggedAs;
+    private Text loggedAs, message;
 
     private TextField eventSearch;
     private ComboBox eventFilter;
@@ -85,6 +87,7 @@ public class MainMenuView implements Observer {
     final private String START_SURVEY = "Créer Sondage";
     final private String START_MEETING = "Créer Réunion";
     final private String SEARCH = "Rechercher";
+    final private String SEARCH_HINT = "Café";
     final private String FILTER = "Filtrer";
     final private String MY_EVENTS = "Mes Evénements";
     final private String MY_ACCOUNT = "Mon Compte";
@@ -119,7 +122,9 @@ public class MainMenuView implements Observer {
         controller = new MainMenuController(this);
 
         //On place les éléments
-        mainPane.add(eventSearch, 0, 1);
+        HBox searchBox = new HBox();
+        searchBox.getChildren().addAll(eventSearch, searchButton);
+        mainPane.add(searchBox, 0, 1);
 
         VBox eventBox = new VBox();
         eventBox.getChildren().addAll(eventFilter, events);
@@ -148,7 +153,7 @@ public class MainMenuView implements Observer {
 
 
         HBox myAccountBox = new HBox();
-        myAccountBox.getChildren().addAll(myEvents, myAccount);
+        myAccountBox.getChildren().addAll(message, myEvents, myAccount);
         myAccountBox.setAlignment(Pos.CENTER_RIGHT);
         myAccountBox.setSpacing(MY_ACCOUNT_BUTTON_SPACING);
         mainPane.add(myAccountBox, 4, 8);
@@ -169,7 +174,9 @@ public class MainMenuView implements Observer {
         primaryStage.show();
     }
 
-
+private Stage appStage;
+    private Scene previousScene;
+    private Scene currentScene;
     public void initializeGridPane() {
         //Grid settings
         mainPane = new GridPane();
@@ -196,19 +203,21 @@ public class MainMenuView implements Observer {
         startMeeting = new Button(START_MEETING);
         startMeeting.setPrefSize(START_EVENT_WIDTH, START_EVENT_HEIGHT);
         startMeeting.setFont(new Font(EVENT_BUTTONS_FONT_SIZE));
+        searchButton = new Button(SEARCH);
 
         loggedAs = new Text();
         loggedAs.setFont(new Font(LOGGED_AS_FONT_SIZE));
         logIn = new Button(AppConstants.LOG_IN);
         logOut = new Button(AppConstants.LOG_OUT);
         logOut.setVisible(false);
+        message = new Text();
         myEvents = new Button(MY_EVENTS);
         myAccount = new Button(MY_ACCOUNT);
 
         Image image = new Image(AppConstants.POOPLE_LOGO);
         logo = new ImageView(image);
 
-        eventSearch = new TextField(SEARCH);
+        eventSearch = new TextField(SEARCH_HINT);
 
         eventFilter = new ComboBox();
         eventFilter.getItems().addAll(NO_FILTERS, SURVEYS_FILTER, MEETINGS_FILTER);
@@ -236,8 +245,8 @@ public class MainMenuView implements Observer {
         startSurvey.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 if (createSurveyView == null)
-
                     createSurveyView = new CreateSurveyView(primaryStage, primaryScene);
+
                 primaryStage.setScene(createSurveyView.getScene());
             }
         });
@@ -247,6 +256,27 @@ public class MainMenuView implements Observer {
                 if (createMeetingView == null)
                     createMeetingView = new CreateMeetingView(primaryStage, primaryScene);
                 primaryStage.setScene(createMeetingView.getScene());
+            }
+        });
+
+        myAccount.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
+                if (CProperties.connected) {
+                    if (myAccountView == null)
+                        myAccountView = new MyAccountView(primaryStage, primaryScene);
+                    primaryStage.setScene(myAccountView.getScene());
+                }
+                else {
+
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Attention");
+                    alert.setHeaderText("Vous n'êtes pas connecté !");
+                    alert.setContentText("Vous devez vous connecter\n" +
+                            "pour accéder a la modification\n" +
+                            "de votre compte !");
+                    alert.showAndWait();
+                }
             }
         });
 
@@ -280,6 +310,18 @@ public class MainMenuView implements Observer {
                 }
             }
         });
+
+        myEvents.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+
+                if (CProperties.connected) {
+
+                    if (myEventsView == null)
+                        myEventsView = new MyEventsView(primaryStage, primaryScene);
+                    primaryStage.setScene(myEventsView.getScene());
+                }
+            }
+        });
     }
 
 
@@ -294,6 +336,8 @@ public class MainMenuView implements Observer {
             else
                 eventList.setAll(((MainMenuModel) o).getMeetings());
             events.setItems(eventList);
+
+            message.setText(MainMenuModel.getInstance().message);
         }
         if (o instanceof ConnectionModel){
             CUser currentUser = ((ConnectionModel) o).getCurrentUser();
@@ -329,4 +373,6 @@ public class MainMenuView implements Observer {
     public void setAnswerMeetingView(AnswerMeetingView newView) {
         answerMeetingView = newView;
     }
+
+    public Scene getPrimaryScene() { return primaryScene; }
 }

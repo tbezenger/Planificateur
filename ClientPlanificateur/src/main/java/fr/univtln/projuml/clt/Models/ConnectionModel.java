@@ -1,5 +1,6 @@
 package fr.univtln.projuml.clt.Models;
 
+import fr.univtln.projuml.clt.CProperties;
 import fr.univtln.projuml.clt.Events.AEvent;
 import fr.univtln.projuml.clt.Users.CUser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,6 +63,9 @@ public class ConnectionModel extends Observable {
                 currentUser = user;
             else
                 return false;
+
+            CProperties.userConnected = user;
+            CProperties.connected = true;
             setChanged();
             notifyObservers();
         } catch (Exception e){

@@ -2,6 +2,7 @@ package fr.univtln.projuml.clt.Views;
 
 import fr.univtln.projuml.clt.AppConstants;
 import fr.univtln.projuml.clt.Controllers.CreateSurveyController;
+import fr.univtln.projuml.clt.Models.MainMenuModel;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -202,6 +203,8 @@ public class CreateSurveyView {
                     textAnswers.add(answer);
                 }
                 controller.createSurvey(askAQuestionField.getText(), makePrivate.isSelected(), textAnswers);
+                MainMenuModel.getInstance().message = AppConstants.SURVEY_VALIDATION;
+                appStage.setScene(previousScene);
             }
         });
 

@@ -26,12 +26,12 @@ public class CreateSurveyController {
 
 
     public boolean createSurvey(String question, boolean privateSurvey, List<String> answers) {
-        if (question.isEmpty())
+        if (question.equals(""))
             return false;
         for (String answer : answers)
-            if (answer.isEmpty())
+            if (answers.equals(""))
                 return false;
-        System.out.println("Controller:" + answers);
+
         return model.createSurvey(question, privateSurvey, answers);
     }
 }

@@ -2,6 +2,7 @@ package fr.univtln.projuml.clt.Models;
 
 import com.sun.jersey.api.client.GenericType;
 import fr.univtln.projuml.clt.AppConstants;
+import fr.univtln.projuml.clt.CProperties;
 import fr.univtln.projuml.clt.Events.CMeeting;
 
 import javax.ws.rs.core.MediaType;
@@ -33,7 +34,14 @@ public class CreateMeetingModel {
             Date parsedDate = new Date(dateFormatter.parse(date).getTime());
             Time parsedTime = new Time(timeFormatter.parse(time).getTime());
 
-            CMeeting newMeeting = new CMeeting(title, privateMeeting, 1000, parsedDate, parsedTime);
+//            CMeeting newMeeting = new CMeeting(title, privateMeeting, 1000, parsedDate, parsedTime);
+            CMeeting newMeeting = new CMeeting();
+            newMeeting.setTitle(title);
+            newMeeting.setDate(parsedDate);
+            newMeeting.setHour(parsedTime);
+
+            if (CProperties.connected)
+                newMeeting.setCreator(CProperties.userConnected);
 
             List<CMeeting> meetings = AppConstants.webResource.path("meetings").type(MediaType.APPLICATION_JSON_TYPE)
                     .get(new GenericType<List<CMeeting>>() {

@@ -30,7 +30,10 @@ public class CServerTestQuery {
         cc.getClasses().add(JacksonJsonProvider.class);
         Client c = Client.create(cc);
         WebResource webResource = c.resource("http://localhost:9999/");
+        // ip chattanga
 //        WebResource webResource = c.resource("http://176.157.85.69:9999/");
+        // ip tomy
+//        WebResource webResource = c.resource("http://82.244.173.126:9999/");
 
         CGroup g1 = new CGroup();
         g1.setId(1);
@@ -40,7 +43,7 @@ public class CServerTestQuery {
         u1.setId(1);
         u1.setFirstName("clement");
         u1.setLastName("farge");
-        u1.setMail("lol@ptdr.mdr");
+        u1.setMail("lol");
         u1.setPassword(123456);
         u1.addGroup(g1);
 
@@ -54,9 +57,9 @@ public class CServerTestQuery {
 
         CUser u3 = new CUser();
         u3.setId(3);
-        u3.setFirstName("tomy");
-        u3.setLastName("bezenger");
-        u3.setMail("xplosm@ptdr.mdr");
+        u3.setFirstName("lois");
+        u3.setLastName("tonnet");
+        u3.setMail("poop@ytp.mdr");
         u3.setPassword(654321);
         u3.addGroup(g1);
 

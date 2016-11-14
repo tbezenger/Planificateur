@@ -19,9 +19,9 @@ public class CreateMeetingController {
     public boolean createMeeting(String title, String address, String building, String roomNumber,
                               String date, String time, boolean privateMeeting){
         String[] parameters = {title, address, building, roomNumber, date, time};
-        for (String s : parameters)
-            if (s.isEmpty())
-                return false;
+//        for (String s : parameters)
+//            if (s.isEmpty())
+//                return false;
 
         model.createMeeting(title, address, building, roomNumber, date, time, privateMeeting);
         return true;

@@ -7,6 +7,7 @@ import fr.univtln.projuml.clt.Views.ConnectionView;
  * Created by tomy- on 26/10/2016.
  */
 public class ConnectionController {
+
     private ConnectionView connectionView;
     private ConnectionModel connectionModel;
 

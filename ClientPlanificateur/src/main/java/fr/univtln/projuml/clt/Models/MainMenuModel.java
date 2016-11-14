@@ -20,6 +20,7 @@ public class MainMenuModel extends Observable {
     }
 
     private List<AEvent> events = new ArrayList<AEvent>();
+    public String message = "";
 
     public List<AEvent> getEvents() {
         return events;
