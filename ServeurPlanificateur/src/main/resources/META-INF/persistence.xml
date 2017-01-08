@@ -24,7 +24,7 @@
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/poopledatabase"/>
 			<property name="javax.persistence.jdbc.user" value="poople"/>
-			<property name="javax.persistence.jdbc.password" value="whatthehell"/>
+			<property name="javax.persistence.jdbc.password" value="whatthefuck"/>
 			<property name="eclipselink.ddl-generation.output-mode" value="both"/>
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
 			<!--<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>-->
